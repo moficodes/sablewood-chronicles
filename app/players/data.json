@@ -1,0 +1,34 @@
+[
+  {
+    "id": "p1",
+    "name": "Kaelen Swift",
+    "race": "Half-Elf",
+    "class": "Rogue",
+    "level": 4,
+    "description": "A swift and cunning rogue with a mysterious past.",
+    "stats": {
+      "str": 10,
+      "dex": 18,
+      "con": 14,
+      "int": 12,
+      "wis": 10,
+      "cha": 16
+    }
+  },
+  {
+    "id": "p2",
+    "name": "Thrain Ironshield",
+    "race": "Dwarf",
+    "class": "Fighter",
+    "level": 4,
+    "description": "A stoic dwarven warrior who honors his ancestors.",
+    "stats": {
+      "str": 18,
+      "dex": 10,
+      "con": 16,
+      "int": 10,
+      "wis": 14,
+      "cha": 8
+    }
+  }
+]

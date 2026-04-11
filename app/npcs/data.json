@@ -1,0 +1,16 @@
+[
+  {
+    "id": "n1",
+    "name": "Elara Vance",
+    "role": "Tavern Keeper",
+    "location": "The Prancing Pony",
+    "description": "A kind-hearted human who knows all the rumors in town."
+  },
+  {
+    "id": "n2",
+    "name": "Morgran",
+    "role": "Blacksmith",
+    "location": "Ironforge Anvil",
+    "description": "A gruff but skilled weaponsmith."
+  }
+]

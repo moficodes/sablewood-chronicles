@@ -1,0 +1,14 @@
+[
+  {
+    "id": "l1",
+    "name": "Oakhaven",
+    "region": "The Green Valley",
+    "description": "A peaceful village surrounded by ancient oaks."
+  },
+  {
+    "id": "l2",
+    "name": "Whispering Caves",
+    "region": "Dragon's Tooth Mountains",
+    "description": "Dark, damp caves where strange voices can be heard."
+  }
+]

@@ -1,26 +1,68 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --surface: #fff8f0;
+  --surface-dim: #f0d991;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #fff3d5;
+  --surface-container: #ffedba;
+  --surface-container-high: #fbf2cd;
+  --surface-container-highest: #f7e1a0;
+  --primary: #8d34b4;
+  --primary-container: #e8aaff;
+  --primary-dim: #8025a6;
+  --on-surface: #3e3101;
+  --outline-variant: #c4b174;
+  --secondary: #954b00;
+  --secondary-container: #ffdcc5;
+  --on-secondary-container: #814000;
+  --tertiary: #2d6a4f;
+  --tertiary-container: #beffdc;
+}
+
+.dark {
+  --surface: #2c2317;
+  --surface-dim: #1e170d;
+  --surface-container-lowest: #110b05;
+  --surface-container-low: #221910;
+  --surface-container: #302519;
+  --surface-container-high: #3c2f21;
+  --surface-container-highest: #473a2b;
+  --primary: #d59df4;
+  --primary-container: #67168c;
+  --primary-dim: #b17ad2;
+  --on-surface: #f5eedd;
+  --outline-variant: #6e6242;
+  --secondary: #ffb68c;
+  --secondary-container: #632d00;
+  --on-secondary-container: #ffdcc5;
+  --tertiary: #72d6a4;
+  --tertiary-container: #0e4a30;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-primary-dim: var(--primary-dim);
+  --color-on-surface: var(--on-surface);
+  --color-outline-variant: var(--outline-variant);
+  --color-secondary: var(--secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-on-secondary-container: var(--on-secondary-container);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-container: var(--tertiary-container);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-plus-jakarta), Arial, Helvetica, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--surface);
+  color: var(--on-surface);
 }
