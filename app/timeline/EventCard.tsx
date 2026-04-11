@@ -38,7 +38,7 @@ export function EventCard({ event, align }: { event: TimelineEvent; align: 'left
             <div className="flex flex-col gap-3">
               {event.pcNotes.map((note, idx) => (
                 <div key={idx} className="bg-surface-container-high rounded-2xl p-5 italic text-on-surface-variant text-sm">
-                  "{note.note}"
+                  &quot;{note.note}&quot;
                 </div>
               ))}
             </div>
