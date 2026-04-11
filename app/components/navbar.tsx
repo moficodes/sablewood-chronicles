@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { name: "Players", href: "/players" },
   { name: "NPCs", href: "/npcs" },
   { name: "Locations", href: "/locations" },
+  { name: "Timeline", href: "/timeline" },
 ];
 
 export function Navbar() {
