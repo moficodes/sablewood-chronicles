@@ -54,3 +54,30 @@ export interface Player {
   backgroundQuestions: QA[];
   connectionQuestions: QA[];
 }
+
+export interface GameTime {
+  era: string;
+  year: number;
+  month: string;
+  day: number;
+}
+
+export type EventType = 'location_change' | 'achievement' | 'drawback' | 'npc_meet' | 'combat' | 'general';
+export type SagaArc = 'arc_1_intro' | 'arc_2_shadows' | 'arc_3_revelation';
+
+export interface PCNote {
+  pcId: string;
+  note: string;
+}
+
+export interface TimelineEvent {
+  id: string;
+  title: string;
+  time: GameTime;
+  type: EventType;
+  sagaArc?: SagaArc;
+  description: string;
+  pcNotes?: PCNote[];
+  locationId?: string;
+  npcIds?: string[];
+}
