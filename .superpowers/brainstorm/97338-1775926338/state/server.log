@@ -1,0 +1,9 @@
+{"type":"server-started","port":50438,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:50438","screen_dir":"/Users/mofi/Documents/github.com/moficodes/sablewood-chronicles/.superpowers/brainstorm/97338-1775926338/content","state_dir":"/Users/mofi/Documents/github.com/moficodes/sablewood-chronicles/.superpowers/brainstorm/97338-1775926338/state"}
+{"type":"screen-added","file":"/Users/mofi/Documents/github.com/moficodes/sablewood-chronicles/.superpowers/brainstorm/97338-1775926338/content/timeline-display.html"}
+{"source":"user-event","type":"click","text":"A\n    \n      Infinite Scroll\n      Load more events as the user scrolls down the page.","choice":"a","id":null,"timestamp":1775926361980}
+{"source":"user-event","type":"click","text":"A\n    \n      Infinite Scroll\n      Load more events as the user scrolls down the page.","choice":"a","id":null,"timestamp":1775926367865}
+{"source":"user-event","type":"click","text":"A\n    \n      Infinite Scroll\n      Load more events as the user scrolls down the page.","choice":"a","id":null,"timestamp":1775926368181}
+{"source":"user-event","type":"click","text":"A\n    \n      Infinite Scroll\n      Load more events as the user scrolls down the page.","choice":"a","id":null,"timestamp":1775926368325}
+{"type":"screen-added","file":"/Users/mofi/Documents/github.com/moficodes/sablewood-chronicles/.superpowers/brainstorm/97338-1775926338/content/timeline-layout.html"}
+{"type":"screen-added","file":"/Users/mofi/Documents/github.com/moficodes/sablewood-chronicles/.superpowers/brainstorm/97338-1775926338/content/timeline-filters.html"}
+{"type":"screen-added","file":"/Users/mofi/Documents/github.com/moficodes/sablewood-chronicles/.superpowers/brainstorm/97338-1775926338/content/waiting.html"}
