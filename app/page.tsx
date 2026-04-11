@@ -16,7 +16,7 @@ export default function Home() {
             A living chronicle of our tabletop adventures. Explore the heroes, the villains, and the world they inhabit.
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
             <div className="bg-surface-container-lowest p-6 rounded-2xl">
               <h3 className="text-xl font-bold text-primary-dim mb-2">Players</h3>
               <p className="text-on-surface mb-4">Discover the brave adventurers shaping the fate of Sablewood.</p>
@@ -31,6 +31,11 @@ export default function Home() {
               <h3 className="text-xl font-bold text-primary-dim mb-2">Locations</h3>
               <p className="text-on-surface mb-4">Explore the towns, dungeons, and wilderness of our world.</p>
               <Link href="/locations" className="text-secondary font-bold hover:text-secondary-container transition-colors">Explore the World &rarr;</Link>
+            </div>
+            <div className="bg-surface-container-lowest p-6 rounded-2xl">
+              <h3 className="text-xl font-bold text-primary-dim mb-2">Chronicles</h3>
+              <p className="text-on-surface mb-4">Review the timeline of events, battles, and discoveries.</p>
+              <Link href="/timeline" className="text-secondary font-bold hover:text-secondary-container transition-colors">View Timeline &rarr;</Link>
             </div>
           </div>
         </div>
