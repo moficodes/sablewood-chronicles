@@ -3,6 +3,23 @@ export interface QA {
   answer: string;
 }
 
+export interface MemorableInteraction {
+  description: string;
+  highlight?: string;
+  pcInvolved?: string;
+}
+
+export interface NPC {
+  id: string;
+  name: string;
+  role: string;
+  location: string;
+  description: string;
+  image?: string;
+  attitudeTowardParty?: string;
+  memorableInteractions?: MemorableInteraction[];
+}
+
 export interface PlayerStats {
   agility: number;
   strength: number;
