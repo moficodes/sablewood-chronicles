@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { Filter, ChevronDown, ChevronUp } from 'lucide-react';
 import { TimelineEvent, EventType, SagaArc } from '@/types';
 import eventsData from './data.json';
 import { EventCard } from './EventCard';
@@ -17,6 +18,7 @@ const PC_IDS = Array.from(new Set((eventsData as TimelineEvent[]).flatMap(e => e
 export default function TimelinePage() {
   const [allEvents] = useState<TimelineEvent[]>(eventsData as TimelineEvent[]);
   const [page, setPage] = useState(1);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   
   const [filters, setFilters] = useState<{ type: string[]; sagaArc: string[]; pcId: string[] }>({ 
     type: [], 
@@ -69,60 +71,67 @@ export default function TimelinePage() {
       <h1 className="text-4xl font-bold text-on-surface mb-8 text-center">Chronicles</h1>
       
       {/* Filter Controls */}
-      <div className="mb-12 p-6 bg-surface-container rounded-2xl flex flex-col gap-6">
-        {EVENT_TYPES.length > 0 && (
-          <div>
-            <h3 className="text-sm font-semibold text-on-surface mb-3">Filter by Type</h3>
-            <div className="flex flex-wrap gap-2">
-              {EVENT_TYPES.map(type => (
-                <button 
-                  key={type}
-                  onClick={() => toggleFilter('type', type)}
-                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
-                    filters.type.includes(type) ? 'bg-primary text-on-primary' : 'bg-surface hover:bg-surface-container-high text-on-surface-variant'
-                  }`}
-                >
-                  {type.replace(/_/g, ' ')}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-        
-        {SAGA_ARCS.length > 0 && (
-          <div>
-            <h3 className="text-sm font-semibold text-on-surface mb-3">Filter by Saga Arc</h3>
-            <div className="flex flex-wrap gap-2">
-              {SAGA_ARCS.map(arc => (
-                <button 
-                  key={arc}
-                  onClick={() => toggleFilter('sagaArc', arc)}
-                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
-                    filters.sagaArc.includes(arc) ? 'bg-primary text-on-primary' : 'bg-surface hover:bg-surface-container-high text-on-surface-variant'
-                  }`}
-                >
-                  {arc.replace(/_/g, ' ')}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+      <div className="mb-12">
+        <button 
+          onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+          className="flex items-center gap-2 px-6 py-3 bg-surface-container hover:bg-surface-container-high rounded-2xl transition-colors mx-auto text-on-surface font-semibold"
+        >
+          <Filter className="w-5 h-5" />
+          <span>Filters</span>
+          {isFiltersOpen ? <ChevronUp className="w-5 h-5 ml-2" /> : <ChevronDown className="w-5 h-5 ml-2" />}
+        </button>
 
-        {PC_IDS.length > 0 && (
-          <div>
-            <h3 className="text-sm font-semibold text-on-surface mb-3">Filter by PC</h3>
-            <div className="flex flex-wrap gap-2">
-              {PC_IDS.map(pc => (
-                <button 
-                  key={pc}
-                  onClick={() => toggleFilter('pcId', pc)}
-                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
-                    filters.pcId.includes(pc) ? 'bg-primary text-on-primary' : 'bg-surface hover:bg-surface-container-high text-on-surface-variant'
-                  }`}
-                >
-                  {pc}
-                </button>
-              ))}
+        {isFiltersOpen && (
+          <div className="mt-6 p-6 bg-surface-container rounded-2xl flex flex-col gap-6 animate-in fade-in slide-in-from-top-4 duration-200">
+            <div>
+              <h3 className="text-sm font-semibold text-on-surface mb-3">Filter by Type</h3>
+              <div className="flex flex-wrap gap-2">
+                {EVENT_TYPES.map(type => (
+                  <button 
+                    key={type}
+                    onClick={() => toggleFilter('type', type)}
+                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                      filters.type.includes(type) ? 'bg-primary text-on-primary' : 'bg-surface hover:bg-surface-container-high text-on-surface-variant'
+                    }`}
+                  >
+                    {type.replace('_', ' ')}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold text-on-surface mb-3">Filter by Arc</h3>
+              <div className="flex flex-wrap gap-2">
+                {SAGA_ARCS.map(arc => (
+                  <button 
+                    key={arc}
+                    onClick={() => toggleFilter('sagaArc', arc)}
+                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                      filters.sagaArc.includes(arc) ? 'bg-secondary text-on-secondary' : 'bg-surface hover:bg-surface-container-high text-on-surface-variant'
+                    }`}
+                  >
+                    {arc.replace(/_/g, ' ')}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold text-on-surface mb-3">Filter by PC Notes</h3>
+              <div className="flex flex-wrap gap-2">
+                {PC_IDS.map(id => (
+                  <button 
+                    key={id}
+                    onClick={() => toggleFilter('pcId', id)}
+                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                      filters.pcId.includes(id) ? 'bg-tertiary text-on-tertiary' : 'bg-surface hover:bg-surface-container-high text-on-surface-variant'
+                    }`}
+                  >
+                    {id}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         )}
