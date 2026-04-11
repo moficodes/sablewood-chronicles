@@ -1,0 +1,67 @@
+[
+  {
+    "id": "evt-001",
+    "title": "Arrival at Sablewood",
+    "time": {
+      "era": "The Second Age",
+      "year": 1452,
+      "month": "Frostfall",
+      "day": 14
+    },
+    "type": "location_change",
+    "sagaArc": "arc_1_intro",
+    "description": "The party arrived at the gates of Sablewood, seeking refuge from the storm. The guards were suspicious but eventually let them in after a brief interrogation.",
+    "pcNotes": [
+      {
+        "pcId": "pc-001",
+        "note": "The guards seemed more afraid of something inside the woods than us outside. I should keep an eye on them."
+      }
+    ]
+  },
+  {
+    "id": "evt-002",
+    "title": "Meeting the Elder",
+    "time": {
+      "era": "The Second Age",
+      "year": 1452,
+      "month": "Frostfall",
+      "day": 15
+    },
+    "type": "npc_meet",
+    "sagaArc": "arc_1_intro",
+    "description": "An audience with Elder Thorne was granted. He tasked the party with investigating the recent disappearances near the old ruins.",
+    "pcNotes": []
+  },
+  {
+    "id": "evt-003",
+    "title": "Ambush at the Ruins",
+    "time": {
+      "era": "The Second Age",
+      "year": 1452,
+      "month": "Frostfall",
+      "day": 17
+    },
+    "type": "combat",
+    "sagaArc": "arc_1_intro",
+    "description": "While investigating the ruins, the party was ambushed by a pack of shadow-wolves. They barely managed to fend them off.",
+    "pcNotes": [
+      {
+        "pcId": "pc-002",
+        "note": "My spells barely singed their fur. They are resistant to fire. We need a new strategy."
+      }
+    ]
+  },
+  {
+    "id": "evt-004",
+    "title": "Discovery of the Amulet",
+    "time": {
+      "era": "The Second Age",
+      "year": 1452,
+      "month": "Frostfall",
+      "day": 18
+    },
+    "type": "achievement",
+    "sagaArc": "arc_1_intro",
+    "description": "Deep within the ruins, an ancient amulet pulsing with strange energy was found hidden beneath a stone altar."
+  }
+]
