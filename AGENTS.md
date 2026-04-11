@@ -16,3 +16,10 @@ For any UI, component, or layout work, you MUST follow the aesthetic rules defin
 - **No Pure Black**: Never use `#000000`. Use the designated `on-surface` color (e.g., `#3e3101`) for high-legibility text and icons.
 - **No Sharp Corners**: Do not use `rounded-none`. The minimum border radius is `1rem`.
 - **Material Depth**: Create physical depth using overlapping elements, glassmorphism (`backdrop-blur`), and specific hex values provided in `DESIGN.md` rather than flat SaaS layouts.
+
+## Active Technologies
+- TypeScript / React 19 / Node.js 20+ + Next.js App Router, Tailwind CSS v4 (@tailwindcss/postcss) (001-ttrpg-wiki)
+- Local `.json` files parsed at build-time (001-ttrpg-wiki)
+
+## Recent Changes
+- 001-ttrpg-wiki: Added TypeScript / React 19 / Node.js 20+ + Next.js App Router, Tailwind CSS v4 (@tailwindcss/postcss)
