@@ -7,6 +7,16 @@ export interface MemorableInteraction {
   description: string;
   highlight?: string;
   pcInvolved?: string;
+  pcsInvolved?: string[];
+}
+
+export interface Location {
+  id: string;
+  name: string;
+  region: string;
+  description: string;
+  images?: string[];
+  memorableInteractions?: MemorableInteraction[];
 }
 
 export interface NPC {
