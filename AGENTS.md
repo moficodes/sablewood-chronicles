@@ -18,8 +18,4 @@ For any UI, component, or layout work, you MUST follow the aesthetic rules defin
 - **Material Depth**: Create physical depth using overlapping elements, glassmorphism (`backdrop-blur`), and specific hex values provided in `DESIGN.md` rather than flat SaaS layouts.
 
 ## Active Technologies
-- TypeScript / React 19 / Node.js 20+ + Next.js App Router, Tailwind CSS v4 (@tailwindcss/postcss) (001-ttrpg-wiki)
-- Local `.json` files parsed at build-time (001-ttrpg-wiki)
-
-## Recent Changes
-- 001-ttrpg-wiki: Added TypeScript / React 19 / Node.js 20+ + Next.js App Router, Tailwind CSS v4 (@tailwindcss/postcss)
+- TypeScript / React 19 / Node.js 20+ + Next.js App Router, Tailwind CSS v4 (@tailwindcss/postcss)
