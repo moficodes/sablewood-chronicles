@@ -19,3 +19,9 @@ For any UI, component, or layout work, you MUST follow the aesthetic rules defin
 
 ## Active Technologies
 - TypeScript / React 19 / Node.js 20+ + Next.js App Router, Tailwind CSS v4 (@tailwindcss/postcss)
+
+## Workflow
+- Always create a plan doc in specs folder with a number after the last plan. Like XX-name-of-plan.md. 
+- Check for other plans with find next number for plan and avoid name collision
+- Ask user to review plan before any actual code is written
+

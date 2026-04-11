@@ -2,33 +2,65 @@
   {
     "id": "p1",
     "name": "Kaelen Swift",
-    "race": "Half-Elf",
+    "image": "https://placehold.co/400x400/8d34b4/fff8f0?text=KS",
+    "ancestry": "Ribbet",
+    "community": "Underborne",
     "class": "Rogue",
-    "level": 4,
-    "description": "A swift and cunning rogue with a mysterious past.",
+    "subclass": "Nightwalker",
+    "level": 2,
+    "tier": 1,
+    "description": "A swift and cunning rogue with a mysterious past, striking from the shadows.",
     "stats": {
-      "str": 10,
-      "dex": 18,
-      "con": 14,
-      "int": 12,
-      "wis": 10,
-      "cha": 16
-    }
+      "agility": 2,
+      "strength": -1,
+      "finesse": 3,
+      "instinct": 1,
+      "presence": 0,
+      "knowledge": 1
+    },
+    "backgroundQuestions": [
+      {
+        "question": "Who taught you how to hide in plain sight?",
+        "answer": "An old beggar who was actually a retired master thief."
+      }
+    ],
+    "connectionQuestions": [
+      {
+        "question": "Which member of the party caught you stealing and let you go?",
+        "answer": "Thrain saw me lift an apple but pretended to look the other way."
+      }
+    ]
   },
   {
     "id": "p2",
     "name": "Thrain Ironshield",
-    "race": "Dwarf",
-    "class": "Fighter",
-    "level": 4,
-    "description": "A stoic dwarven warrior who honors his ancestors.",
+    "image": "https://placehold.co/400x400/954b00/fff8f0?text=TI",
+    "ancestry": "Dwarf",
+    "community": "Highborne",
+    "class": "Warrior",
+    "subclass": "Stalwart",
+    "level": 2,
+    "tier": 1,
+    "description": "A stoic dwarven warrior who honors his ancestors and protects his allies.",
     "stats": {
-      "str": 18,
-      "dex": 10,
-      "con": 16,
-      "int": 10,
-      "wis": 14,
-      "cha": 8
-    }
+      "agility": 0,
+      "strength": 3,
+      "finesse": 1,
+      "instinct": 0,
+      "presence": -1,
+      "knowledge": 2
+    },
+    "backgroundQuestions": [
+      {
+        "question": "What heirloom weapon do you carry?",
+        "answer": "The Ironshield family broadsword, forged three ages ago."
+      }
+    ],
+    "connectionQuestions": [
+      {
+        "question": "Who in the party do you trust to guard your back?",
+        "answer": "I trust Kaelen, despite his sticky fingers."
+      }
+    ]
   }
 ]
