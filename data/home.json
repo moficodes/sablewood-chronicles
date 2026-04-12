@@ -1,0 +1,26 @@
+{
+  "nextSession": "May 1st, 2026 7PM EST",
+  "activeQuest": {
+    "title": "Defeat the Cave Troll",
+    "status": "active",
+    "locationId": "l2",
+    "description": "Clear the Whispering Caves so merchants can safely pass."
+  },
+  "questList": [
+    {
+      "title": "Find the lost artifact",
+      "status": "pending",
+      "locationId": "l3"
+    }
+  ],
+  "mostWanted": [
+    {
+      "name": "The Shadow King",
+      "reward": "1000g",
+      "image": "https://placehold.co/400x400/3e3101/fff8f0?text=SK",
+      "lastSeenLocation": "Unknown"
+    }
+  ],
+  "lastLocationId": "l2",
+  "nextDestinationId": "l1"
+}
