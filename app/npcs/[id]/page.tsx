@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import npcs from "@/data/npcs.json";
+import { getCampaignData } from "@/src/lib/data";
 import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
+  const { npcs } = getCampaignData();
   return npcs.map((npc) => ({
     id: npc.id,
   }));
@@ -14,6 +15,7 @@ export default async function NPCDetailsPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const { npcs } = getCampaignData();
   const { id } = await params;
   const npc = npcs.find((n) => n.id === id);
 
