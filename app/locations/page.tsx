@@ -1,5 +1,5 @@
 import Link from "next/link";
-import locationsData from "./data.json";
+import locationsData from "@/data/locations.json";
 import Image from "next/image";
 import { Location } from "@/types";
 

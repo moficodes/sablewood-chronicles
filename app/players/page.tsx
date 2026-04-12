@@ -1,5 +1,5 @@
 import Link from "next/link";
-import playersData from "./data.json";
+import playersData from "@/data/players.json";
 import { Player } from "@/types";
 
 const players: Player[] = playersData;

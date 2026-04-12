@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import playersData from "../data.json";
+import playersData from "@/data/players.json";
 import { Player } from "@/types";
 
 interface PageProps {

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Filter, ChevronDown, ChevronUp } from 'lucide-react';
 import { TimelineEvent, EventType, SagaArc, TimelineData } from '@/types';
-import eventsDataFile from './data.json';
+import eventsDataFile from '@/data/timeline.json';
 import { EventCard } from './EventCard';
 import { filterEvents, getTypeColor } from './utils';
 

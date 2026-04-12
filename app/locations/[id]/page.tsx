@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import locationsData from "../data.json";
+import locationsData from "@/data/locations.json";
 import ImageCarousel from "./ImageCarousel";
 import { Location } from "@/types";
 

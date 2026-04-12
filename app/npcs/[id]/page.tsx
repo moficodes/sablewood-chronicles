@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import npcs from "../data.json";
+import npcs from "@/data/npcs.json";
 import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
