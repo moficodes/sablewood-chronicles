@@ -90,3 +90,26 @@ export interface TimelineEvent {
   locationId?: string;
   npcIds?: string[];
 }
+
+export interface Quest {
+  title: string;
+  status: 'active' | 'completed' | 'pending';
+  locationId?: string;
+  description?: string;
+}
+
+export interface WantedPerson {
+  name: string;
+  reward: string;
+  image: string;
+  lastSeenLocation?: string;
+}
+
+export interface HomeData {
+  nextSession: string;
+  activeQuest: Quest;
+  questList: Quest[];
+  mostWanted: WantedPerson[];
+  lastLocationId: string;
+  nextDestinationId: string;
+}
