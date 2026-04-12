@@ -1,0 +1,77 @@
+<h2>Homepage Layout Options</h2>
+<p class="subtitle">How should we organize the new data on the home page?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>The Notice Board (Grid Focus)</h3>
+      <p>A modular, dashboard-like feel with overlapping cards.</p>
+      
+      <div class="mockup" style="margin-top: 1rem; pointer-events: none;">
+        <div style="background: #fff8f0; padding: 1rem; border-radius: 1rem; font-family: sans-serif; color: #3e3101; font-size: 0.8rem;">
+          <h1 style="color: #8d34b4; margin-bottom: 0.5rem; font-size: 1.2rem;">Sablewood Chronicles</h1>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+            <div style="background: #ffedba; padding: 0.5rem; border-radius: 1rem;">
+              <strong>Current Party</strong>
+              <div style="display: flex; gap: 0.25rem; margin-top: 0.25rem;">
+                <div style="width: 20px; height: 20px; background: #8d34b4; border-radius: 50%;"></div>
+                <div style="width: 20px; height: 20px; background: #954b00; border-radius: 50%;"></div>
+              </div>
+            </div>
+            <div style="display: grid; gap: 0.5rem;">
+              <div style="background: #f7e1a0; padding: 0.5rem; border-radius: 2rem 0 2rem 0;">
+                <strong>Next Session</strong><br>Friday, 7 PM
+              </div>
+              <div style="background: #fff3d5; padding: 0.5rem; border-radius: 1rem;">
+                <strong>Active Task</strong><br>Defeat the Cave Troll
+              </div>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 0.5rem;">
+            <div style="background: #fff3d5; padding: 0.25rem; border-radius: 0.5rem; text-align: center;">Locations</div>
+            <div style="background: #fff3d5; padding: 0.25rem; border-radius: 0.5rem; text-align: center;">NPCs</div>
+            <div style="background: #fff3d5; padding: 0.25rem; border-radius: 0.5rem; text-align: center;">Timeline</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>The Quest Ledger (Narrative Flow)</h3>
+      <p>A top-down chronological flow with a distinct sidebar for metadata.</p>
+      
+      <div class="mockup" style="margin-top: 1rem; pointer-events: none;">
+        <div style="background: #fff8f0; padding: 1rem; border-radius: 1rem; font-family: sans-serif; color: #3e3101; font-size: 0.8rem; display: flex; gap: 0.5rem;">
+          <div style="flex: 2;">
+            <h1 style="color: #8d34b4; margin-bottom: 0.5rem; font-size: 1.2rem;">Sablewood Chronicles</h1>
+            <div style="background: #f7e1a0; padding: 0.5rem; border-radius: 2rem 0 2rem 0; margin-bottom: 0.5rem;">
+              <strong>Active Task</strong><br>Defeat the Cave Troll
+            </div>
+            <div style="background: #ffedba; padding: 0.5rem; border-radius: 1rem;">
+              <strong>Current Party</strong>
+              <div style="display: flex; gap: 0.25rem; margin-top: 0.25rem;">
+                <div style="width: 20px; height: 20px; background: #8d34b4; border-radius: 50%;"></div>
+                <div style="width: 20px; height: 20px; background: #954b00; border-radius: 50%;"></div>
+              </div>
+            </div>
+          </div>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem;">
+             <div style="background: #fff3d5; padding: 0.5rem; border-radius: 1rem;">
+                <strong>Next Session</strong><br>Friday, 7 PM
+              </div>
+              <div style="background: #fff3d5; padding: 0.5rem; border-radius: 1rem;">
+                <strong>Last Visited</strong><br>Whispering Caves
+              </div>
+              <div style="background: #e8aaff; padding: 0.5rem; border-radius: 1rem; text-align: center; color: #3e3101;">
+                Explore
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
