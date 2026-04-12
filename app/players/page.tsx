@@ -1,10 +1,11 @@
 import Link from "next/link";
-import playersData from "@/data/players.json";
+import { getCampaignData } from "@/src/lib/data";
 import { Player } from "@/types";
 
-const players: Player[] = playersData;
-
 export default function PlayersPage() {
+  const { players: playersData } = getCampaignData();
+  const players: Player[] = playersData;
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h1 className="text-4xl md:text-5xl font-bold text-on-surface tracking-tight mb-12">

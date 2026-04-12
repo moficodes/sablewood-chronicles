@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import playersData from "@/data/players.json";
+import { getCampaignData } from "@/src/lib/data";
 import { Player } from "@/types";
 
 interface PageProps {
@@ -8,12 +8,14 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return playersData.map((p) => ({
+  const { players: playersData } = getCampaignData();
+  return playersData.map((p: Player) => ({
     id: p.id,
   }));
 }
 
 export default async function PlayerDetailPage({ params }: PageProps) {
+  const { players: playersData } = getCampaignData();
   const resolvedParams = await params;
   const player = (playersData as Player[]).find((p) => p.id === resolvedParams.id);
 
