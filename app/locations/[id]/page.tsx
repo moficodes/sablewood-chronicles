@@ -1,20 +1,19 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import locationsData from "@/data/locations.json";
+import { getCampaignData } from "@/src/lib/data";
 import ImageCarousel from "./ImageCarousel";
-import { Location } from "@/types";
-
-const locations: Location[] = locationsData;
 
 export async function generateStaticParams() {
-  return locations.map((loc) => ({
+  const { locations: locationsData } = getCampaignData();
+  return locationsData.map((loc) => ({
     id: loc.id,
   }));
 }
 
 export default async function LocationDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { locations: locationsData } = getCampaignData();
   const { id } = await params;
-  const location = locations.find((loc) => loc.id === id);
+  const location = locationsData.find((loc) => loc.id === id);
 
   if (!location) {
     notFound();
