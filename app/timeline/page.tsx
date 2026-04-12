@@ -1,4 +1,4 @@
-import { getCampaignData } from "@/src/lib/data";
+import { getCampaignData } from "@/lib/data";
 import { TimelineData } from '@/types';
 import { TimelineClient } from './timeline-client';
 

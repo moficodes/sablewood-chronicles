@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getCampaignData } from "@/src/lib/data";
+import { getCampaignData } from "@/lib/data";
 
 export default function NPCsPage() {
   const { npcs } = getCampaignData();

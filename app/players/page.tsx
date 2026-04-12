@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getCampaignData } from "@/src/lib/data";
+import { getCampaignData } from "@/lib/data";
 import { Player } from "@/types";
 
 export default function PlayersPage() {

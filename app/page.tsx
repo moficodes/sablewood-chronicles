@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Caveat, Kalam, Shadows_Into_Light } from "next/font/google";
-import { getCampaignData } from "@/src/lib/data";
+import { getCampaignData } from "@/lib/data";
 import { HomeData, Player, Location } from "@/types";
 import { ArrowRight, PlaneTakeoff, Shield } from "lucide-react";
 import PlayerList from "./components/player-list";

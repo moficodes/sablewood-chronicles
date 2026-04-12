@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getCampaignData } from "@/src/lib/data";
+import { getCampaignData } from "@/lib/data";
 import ImageCarousel from "./ImageCarousel";
 
 export async function generateStaticParams() {
