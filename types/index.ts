@@ -50,6 +50,7 @@ export interface Player {
   level: number;
   tier: number;
   description: string;
+  backstory: string;
   stats: PlayerStats;
   backgroundQuestions: QA[];
   connectionQuestions: QA[];

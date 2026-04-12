@@ -9,7 +9,8 @@
     "subclass": "Nightwalker",
     "level": 2,
     "tier": 1,
-    "description": "A swift and cunning rogue with a mysterious past, striking from the shadows.",
+    "description": "A swift and cunning rogue who wields shadows as easily as he wields a dagger. Kaelen operates with a pragmatic moral code, often prioritizing the safety of his eclectic found family over the strict laws of the surface world.",
+    "backstory": "Born in the damp, sprawling subterranean warrens of the Underborne, Kaelen learned early that survival required a light step and sticky fingers. After a heist gone disastrously wrong left his original crew scattered or imprisoned, he fled to the surface. He now navigates the bright, unfamiliar world above, masking his guilt with sarcastic quips and an unyielding readiness to dive into danger if it means protecting his current companions.",
     "stats": {
       "agility": 2,
       "strength": -1,
@@ -22,12 +23,28 @@
       {
         "question": "Who taught you how to hide in plain sight?",
         "answer": "An old beggar who was actually a retired master thief."
+      },
+      {
+        "question": "What is the one thing you stole that you deeply regret taking?",
+        "answer": "A polished silver locket. It had no magical properties, but it belonged to a crying child."
+      },
+      {
+        "question": "What surface custom do you still fundamentally misunderstand?",
+        "answer": "The concept of 'private property' when food is left completely unguarded on a windowsill."
       }
     ],
     "connectionQuestions": [
       {
         "question": "Which member of the party caught you stealing and let you go?",
         "answer": "Thrain saw me lift an apple but pretended to look the other way."
+      },
+      {
+        "question": "Who do you silently admire for their unwavering moral compass?",
+        "answer": "Elysia. I don't understand how someone can be so consistently good."
+      },
+      {
+        "question": "Who is the easiest to rile up with a well-placed prank?",
+        "answer": "Grok, without a doubt. He turns bright red when flustered."
       }
     ]
   },
@@ -41,7 +58,8 @@
     "subclass": "Stalwart",
     "level": 2,
     "tier": 1,
-    "description": "A stoic dwarven warrior who honors his ancestors and protects his allies.",
+    "description": "A stoic, formidable dwarven warrior who honors his ancestors through deed and discipline. Thrain is the unyielding anchor of the party, offering both protective muscle and surprising bouts of grounded wisdom.",
+    "backstory": "Hailing from a disgraced noble line of the Highborne mountain peaks, Thrain took up the Ironshield name to restore his family's lost honor. He served in the Mountain Guard for decades, holding passes against monstrous incursions, before a political betrayal forced him into exile. Now, he views his adventuring party as a new surrogate clan, determined never to let another ally fall under his watch.",
     "stats": {
       "agility": 0,
       "strength": 3,
@@ -54,12 +72,126 @@
       {
         "question": "What heirloom weapon do you carry?",
         "answer": "The Ironshield family broadsword, forged three ages ago."
+      },
+      {
+        "question": "What terrifying beast did you face alone in the mountain passes?",
+        "answer": "A blind cave-troll. I lost my original shield in that fight, but I kept its tooth."
+      },
+      {
+        "question": "Why do you refuse to drink dwarven ale from a glass cup?",
+        "answer": "Because a proper drink should be felt through the weight of stone or wood. Glass is for fragile things."
       }
     ],
     "connectionQuestions": [
       {
         "question": "Who in the party do you trust to guard your back?",
         "answer": "I trust Kaelen, despite his sticky fingers."
+      },
+      {
+        "question": "Who has tested your patience the most, yet earned your respect?",
+        "answer": "Grok. He's reckless, but he has the heart of a true warrior."
+      },
+      {
+        "question": "Which party member's magic makes you the most nervous?",
+        "answer": "Elysia's spellcasting is beautiful, but I distrust anything that doesn't rely on cold, hard steel."
+      }
+    ]
+  },
+  {
+    "id": "p3",
+    "name": "Elysia Sunwhisper",
+    "image": "https://placehold.co/400x400/f5a623/fff8f0?text=ES",
+    "ancestry": "Elf",
+    "community": "Sylvan",
+    "class": "Spellcaster",
+    "subclass": "Elementalist",
+    "level": 2,
+    "tier": 1,
+    "description": "A brilliant but sheltered elven spellcaster whose deep connection to the elements is both her greatest asset and her most dangerous liability. She views the world with insatiable curiosity.",
+    "backstory": "Raised in the secluded canopy-cities of the Sylvan elves, Elysia was recognized early as a magical prodigy. However, formal arcane academies stifled her chaotic, emotionally-driven elemental magic. She abandoned her studies to learn from the world directly, seeking the raw, untamed magical currents of Sablewood. While her theoretical knowledge is vast, her practical understanding of mortal life is dangerously lacking.",
+    "stats": {
+      "agility": 1,
+      "strength": -1,
+      "finesse": 0,
+      "instinct": 2,
+      "presence": 1,
+      "knowledge": 3
+    },
+    "backgroundQuestions": [
+      {
+        "question": "What was the first element you accidentally commanded?",
+        "answer": "Fire. I burned down the academy's grand library when I was trying to light a single candle."
+      },
+      {
+        "question": "What trivial piece of knowledge do you obsess over?",
+        "answer": "The migratory patterns of the glow-moths. They always seem to follow lay lines."
+      },
+      {
+        "question": "Who at the academy still thinks you are a failure?",
+        "answer": "Master Vaelen. He believes discipline is more important than raw power."
+      }
+    ],
+    "connectionQuestions": [
+      {
+        "question": "Who explains human customs to you when you are confused?",
+        "answer": "Kaelen, though I'm starting to suspect he makes half of it up."
+      },
+      {
+        "question": "Who do you turn to when you need to be grounded?",
+        "answer": "Thrain. His stoicism helps calm the elemental storm in my mind."
+      },
+      {
+        "question": "Who is the most willing to participate in your dangerous magical experiments?",
+        "answer": "Grok. He usually just laughs when things explode."
+      }
+    ]
+  },
+  {
+    "id": "p4",
+    "name": "Grok 'The Anvil' Thundercrash",
+    "image": "https://placehold.co/400x400/3e8e41/fff8f0?text=GT",
+    "ancestry": "Orc",
+    "community": "Ridgeborne",
+    "class": "Guardian",
+    "subclass": "Warden",
+    "level": 2,
+    "tier": 1,
+    "description": "A boisterous and fiercely loyal orc guardian whose booming laugh is as legendary as his devastating hammer strikes. He believes that the strongest bonds are forged in the heat of battle.",
+    "backstory": "Grok earned the moniker 'The Anvil' in the brutal fighting pits of the Ridgeborne, where he was known not just for winning, but for never backing down from a hit. Tiring of fighting for the amusement of others, he broke his own chains and set out to find a cause worth bleeding for. He fights with reckless joy, viewing every battle as a glorious celebration of life and strength.",
+    "stats": {
+      "agility": -1,
+      "strength": 3,
+      "finesse": 0,
+      "instinct": 1,
+      "presence": 2,
+      "knowledge": 0
+    },
+    "backgroundQuestions": [
+      {
+        "question": "How did you get the scar across your jaw?",
+        "answer": "A dire wolf thought I looked tasty. I proved him wrong."
+      },
+      {
+        "question": "What is the one thing you are terrified of?",
+        "answer": "Deep water. You can't punch an ocean."
+      },
+      {
+        "question": "Why do you still carry the broken chain from the fighting pits?",
+        "answer": "To remind myself that I am the only one who decides when I fight."
+      }
+    ],
+    "connectionQuestions": [
+      {
+        "question": "Who is your favorite drinking companion?",
+        "answer": "Thrain! Dwarves know how to brew something that actually kicks back."
+      },
+      {
+        "question": "Who do you feel compelled to protect above all others?",
+        "answer": "Elysia. She's brilliant, but she'd walk right off a cliff if she was reading a book."
+      },
+      {
+        "question": "Who is the only person who can match you in a test of stubbornness?",
+        "answer": "Kaelen. Once he sets his mind on a shiny object, nothing stops him."
       }
     ]
   }
