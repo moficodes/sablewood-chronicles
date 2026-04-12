@@ -1,10 +1,6 @@
-"use client";
-
 import Link from "next/link";
 import { Caveat, Kalam, Shadows_Into_Light } from "next/font/google";
-import homeDataRaw from "@/data/home.json";
-import playersDataRaw from "@/data/players.json";
-import locationsDataRaw from "@/data/locations.json";
+import { getCampaignData } from "@/src/lib/data";
 import { HomeData, Player, Location } from "@/types";
 import { ArrowRight, PlaneTakeoff, Shield } from "lucide-react";
 import PlayerList from "./components/player-list";
@@ -14,11 +10,13 @@ const fontCaveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
 const fontKalam = Kalam({ subsets: ["latin"], weight: ["400", "700"] });
 const fontShadows = Shadows_Into_Light({ subsets: ["latin"], weight: ["400"] });
 
-const homeData: HomeData = homeDataRaw as unknown as HomeData;
-const players: Player[] = playersDataRaw as unknown as Player[];
-const locations: Location[] = locationsDataRaw as unknown as Location[];
-
 export default function Home() {
+  const { home: homeDataRaw, players: playersDataRaw, locations: locationsDataRaw } = getCampaignData();
+
+  const homeData: HomeData = homeDataRaw as unknown as HomeData;
+  const players: Player[] = playersDataRaw as unknown as Player[];
+  const locations: Location[] = locationsDataRaw as unknown as Location[];
+
   const lastLocation = locations.find(l => l.id === homeData.lastLocationId);
   const nextLocation = locations.find(l => l.id === homeData.nextDestinationId);
 
