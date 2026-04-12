@@ -114,3 +114,11 @@ export interface HomeData {
   lastLocationId: string;
   nextDestinationId: string;
 }
+
+export interface CampaignData {
+  home: HomeData;
+  locations: Location[];
+  timeline: TimelineData;
+  players: Player[];
+  npcs: NPC[];
+}
