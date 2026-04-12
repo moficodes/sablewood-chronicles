@@ -7,6 +7,7 @@ import playersDataRaw from "@/data/players.json";
 import locationsDataRaw from "@/data/locations.json";
 import { HomeData, Player, Location } from "@/types";
 import { ArrowRight, PlaneTakeoff, Shield } from "lucide-react";
+import PlayerList from "./components/player-list";
 
 // Load handwriting fonts for the Quest Board
 const fontCaveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
@@ -34,22 +35,7 @@ export default function Home() {
       </section>
 
       {/* 2. Screen width horizontal list of party members */}
-      <section className="w-full bg-surface-container-low py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto">
-          <div className="flex gap-8 min-w-max pb-4">
-            {players.map(player => (
-              <Link href={`/players/${player.id}`} key={player.id} className="group flex flex-col items-center gap-3 w-48 transition-transform hover:-translate-y-1">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={player.image} alt={player.name} className="w-24 h-24 rounded-full object-cover shadow-sm group-hover:ring-4 ring-primary-container transition-all" />
-                <div className="text-center">
-                  <div className="text-lg font-bold text-on-surface leading-tight">{player.name}</div>
-                  <div className="text-sm text-primary uppercase font-bold tracking-wider mt-1">{player.class}</div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PlayerList players={players} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col gap-12">
         {/* 3. Banner of notice for next session */}
