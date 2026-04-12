@@ -60,6 +60,8 @@ export interface GameTime {
   year: number;
   month: string;
   day: number;
+  hour?: number;
+  minute?: number;
 }
 
 export type EventType = 'location_change' | 'achievement' | 'drawback' | 'npc_meet' | 'combat' | 'general';
@@ -68,6 +70,13 @@ export type SagaArc = 'arc_1_intro' | 'arc_2_shadows' | 'arc_3_revelation';
 export interface PCNote {
   pcId: string;
   note: string;
+}
+
+export interface TimelineData {
+  title: string;
+  subtitle: string;
+  description: string;
+  events: TimelineEvent[];
 }
 
 export interface TimelineEvent {
