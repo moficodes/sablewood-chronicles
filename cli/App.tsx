@@ -1,11 +1,14 @@
 // cli/App.tsx (Replace entirely)
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Box, Text, useInput, useApp } from "ink";
 import SelectInput from "ink-select-input";
 import { readCampaign } from "./data";
 import type { Campaign } from "./schema";
 import path from "path";
 import { PlayerDetail, NPCDetail, LocationDetail, EventDetail } from "./components";
+import type { PlayerData, NPCData, LocationData, EventData } from "./components";
+
+type WithId<T> = T & { id: string };
 
 type AppState = "nav" | "list" | "detail";
 
@@ -54,16 +57,37 @@ export function App() {
   if (!data) return <Text>Loading campaign data...</Text>;
 
   // Compute current list items for the right pane based on category
-  let listItems: {label: string, value: string}[] = [];
-  if (selectedCategory === "players") listItems = data.players.map((p: any) => ({ label: p.name, value: p.id }));
-  if (selectedCategory === "npcs") listItems = data.npcs.map((n: any) => ({ label: n.name, value: n.id }));
-  if (selectedCategory === "locations") listItems = data.locations.map((l: any) => ({ label: l.name, value: l.id }));
-  if (selectedCategory === "timeline") listItems = data.timeline.events.map((e: any) => ({ label: e.title, value: e.id }));
+  const listItems = useMemo(() => {
+    switch (selectedCategory) {
+      case "players":
+        return data.players.map((p: WithId<PlayerData>) => ({ label: p.name, value: p.id }));
+      case "npcs":
+        return data.npcs.map((n: WithId<NPCData>) => ({ label: n.name, value: n.id }));
+      case "locations":
+        return data.locations.map((l: WithId<LocationData>) => ({ label: l.name, value: l.id }));
+      case "timeline":
+        return data.timeline.events.map((e: WithId<EventData>) => ({ label: e.title, value: e.id }));
+      default:
+        return [];
+    }
+  }, [data, selectedCategory]);
 
-  const activeItemData = selectedEntityId 
-    ? (data as any)[selectedCategory === 'timeline' ? 'events' : selectedCategory]?.find((x: any) => x.id === selectedEntityId) || 
-      data.timeline.events.find((x: any) => x.id === selectedEntityId) // fallback for timeline nested search
-    : null;
+  const activeItemData = useMemo(() => {
+    if (!selectedEntityId) return null;
+
+    switch (selectedCategory) {
+      case "players":
+        return data.players.find((p: WithId<PlayerData>) => p.id === selectedEntityId) || null;
+      case "npcs":
+        return data.npcs.find((n: WithId<NPCData>) => n.id === selectedEntityId) || null;
+      case "locations":
+        return data.locations.find((l: WithId<LocationData>) => l.id === selectedEntityId) || null;
+      case "timeline":
+        return data.timeline.events.find((e: WithId<EventData>) => e.id === selectedEntityId) || null;
+      default:
+        return null;
+    }
+  }, [data, selectedCategory, selectedEntityId]);
 
   return (
     <Box flexDirection="column" minHeight={20} borderStyle="single">
@@ -101,10 +125,10 @@ export function App() {
         >
           {appState === "detail" ? (
             <Box>
-              {selectedCategory === "players" && <PlayerDetail data={activeItemData} />}
-              {selectedCategory === "npcs" && <NPCDetail data={activeItemData} />}
-              {selectedCategory === "locations" && <LocationDetail data={activeItemData} />}
-              {selectedCategory === "timeline" && <EventDetail data={activeItemData} />}
+              {selectedCategory === "players" && <PlayerDetail data={activeItemData as WithId<PlayerData> | null} />}
+              {selectedCategory === "npcs" && <NPCDetail data={activeItemData as WithId<NPCData> | null} />}
+              {selectedCategory === "locations" && <LocationDetail data={activeItemData as WithId<LocationData> | null} />}
+              {selectedCategory === "timeline" && <EventDetail data={activeItemData as WithId<EventData> | null} />}
             </Box>
           ) : (
             <SelectInput 
