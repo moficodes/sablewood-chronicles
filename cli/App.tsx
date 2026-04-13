@@ -146,6 +146,37 @@ export function App() {
     }
   }, [data, selectedCategory, selectedEntityId]);
 
+  const handleSave = async (mutatedData: any) => {
+    if (!data) return;
+    
+    // Ensure numeric fields are cast (basic safety for form string outputs)
+    if (mutatedData.level) mutatedData.level = parseInt(mutatedData.level, 10);
+    
+    const newData = { ...data };
+    
+    const arrayName = selectedCategory === "timeline" ? "events" : selectedCategory;
+    const arrayPath = selectedCategory === "timeline" ? newData.timeline.events : (newData as any)[selectedCategory];
+    
+    if (appState === "edit") {
+      const index = arrayPath.findIndex((item: any) => item.id === selectedEntityId);
+      if (index !== -1) {
+        arrayPath[index] = { ...arrayPath[index], ...mutatedData };
+      }
+    } else if (appState === "create") {
+      arrayPath.push(mutatedData);
+      setSelectedEntityId(mutatedData.id); // Auto-select new item
+    }
+
+    try {
+      const filePath = path.join(process.cwd(), "data", "campaign.yml");
+      await writeCampaign(newData, filePath);
+      setData(newData); // update local state
+      setAppState("detail");
+    } catch (e: any) {
+      setError(e.message);
+    }
+  };
+
   if (error) return <Text color="red">Error loading data: {error}</Text>;
   if (!data) return <Text>Loading campaign data...</Text>;
 
@@ -186,7 +217,18 @@ export function App() {
           borderStyle={appState !== "nav" ? "single" : undefined}
           flexDirection="column"
         >
-          {appState === "detail" ? (
+          {appState === "edit" || appState === "create" ? (
+            <Wizard 
+              steps={
+                selectedCategory === "players" ? PLAYER_WIZARD_STEPS : 
+                selectedCategory === "npcs" ? NPC_WIZARD_STEPS : 
+                LOCATION_WIZARD_STEPS // Add more as needed
+              }
+              initialData={appState === "edit" ? activeItemData || {} : {}}
+              onSubmit={handleSave}
+              onCancel={() => setAppState(appState === "edit" ? "detail" : "list")}
+            />
+          ) : appState === "detail" ? (
             <Box>
               {selectedCategory === "players" && <PlayerDetail data={activeItemData as WithId<PlayerData> | null} />}
               {selectedCategory === "npcs" && <NPCDetail data={activeItemData as WithId<NPCData> | null} />}
@@ -207,9 +249,11 @@ export function App() {
       </Box>
 
       {/* Footer */}
-      <Box borderTop={true} borderStyle="single" paddingX={1} borderBottom={false} borderLeft={false} borderRight={false}>
-        <Text color="gray">[Enter] Select | [Esc] Go Back | [q] Quit</Text>
-      </Box>
+      {appState !== "edit" && appState !== "create" && (
+        <Box borderTop={true} borderStyle="single" paddingX={1} borderBottom={false} borderLeft={false} borderRight={false}>
+          <Text color="gray">[Enter] Select | [Esc] Go Back | [e] Edit | [c] Create | [q] Quit</Text>
+        </Box>
+      )}
     </Box>
   );
 }
