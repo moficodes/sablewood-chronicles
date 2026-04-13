@@ -78,4 +78,69 @@ npc.command("delete")
     console.log(`Deleted NPC: ${id}`);
   });
 
+const location = program.command("location").description("Manage Locations");
+
+location.command("list").action(async () => {
+  try {
+    const data = await readCampaign(CAMPAIGN_FILE);
+    console.log(JSON.stringify(data.locations.map((l: any) => ({ id: l.id, name: l.name })), null, 2));
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+});
+
+location.command("add")
+  .requiredOption("--id <string>", "Location ID")
+  .requiredOption("--name <string>", "Location Name")
+  .option("--region <string>", "Location Region")
+  .option("--description <string>", "Location Description")
+  .action(async (options) => {
+    try {
+      const data = await readCampaign(CAMPAIGN_FILE);
+      data.locations.push({ ...options });
+      await writeCampaign(data, CAMPAIGN_FILE);
+      console.log(`Added Location: ${options.name}`);
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
+location.command("update")
+  .argument("<id>", "Location ID")
+  .option("--name <string>")
+  .option("--region <string>")
+  .option("--description <string>")
+  .action(async (id, options) => {
+    try {
+      const data = await readCampaign(CAMPAIGN_FILE);
+      const index = data.locations.findIndex((l: any) => l.id === id);
+      if (index === -1) {
+        console.error(`Location with id ${id} not found.`);
+        process.exit(1);
+      }
+      data.locations[index] = { ...data.locations[index], ...options };
+      await writeCampaign(data, CAMPAIGN_FILE);
+      console.log(`Updated Location: ${id}`);
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
+location.command("delete")
+  .argument("<id>", "Location ID")
+  .action(async (id) => {
+    try {
+      const data = await readCampaign(CAMPAIGN_FILE);
+      data.locations = data.locations.filter((l: any) => l.id !== id);
+      await writeCampaign(data, CAMPAIGN_FILE);
+      console.log(`Deleted Location: ${id}`);
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
 program.parse(process.argv);
