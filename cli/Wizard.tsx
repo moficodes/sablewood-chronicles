@@ -108,9 +108,11 @@ export function Wizard<T extends Record<string, unknown>>({
     setError(null);
 
     // Deep merge using lodash.set
-    const updatedDraft = { ...draftData } as Partial<T>;
+    const updatedDraft = structuredClone(draftData) as Partial<T>;
     // If it's empty string, we can either set it or ignore it. Let's set it.
-    set(updatedDraft as object, currentQStep.path, value);
+    if (currentQStep.step.type !== 'object' && currentQStep.step.type !== 'array') {
+      set(updatedDraft as object, currentQStep.path, value);
+    }
     setDraftData(updatedDraft);
 
     // Expand objects dynamically or just pop the queue
@@ -165,7 +167,7 @@ export function Wizard<T extends Record<string, unknown>>({
 
   return (
     <Box flexDirection="column" padding={1}>
-      <Text bold color="cyan">Wizard Editor</Text>
+      <Text bold color="cyan">Wizard Editor ({queue.length} steps remaining)</Text>
       <Box marginTop={1}>
         <Text color="green">{displayPrompt} </Text>
         <TextInput 
