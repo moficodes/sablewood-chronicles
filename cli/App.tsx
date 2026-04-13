@@ -67,7 +67,6 @@ export function App() {
     
     // q to quit anytime (unless typing in a future form)
     if (input === 'q') {
-      process.stdout.write("\x1b[?1049l");
       exit();
       return;
     }
