@@ -60,13 +60,13 @@ export function App() {
   const listItems = useMemo(() => {
     switch (selectedCategory) {
       case "players":
-        return data.players.map((p: WithId<PlayerData>) => ({ label: p.name, value: p.id }));
+        return data.players.map((p: WithId<PlayerData>) => ({ key: `p-${p.id}`, label: p.name, value: p.id }));
       case "npcs":
-        return data.npcs.map((n: WithId<NPCData>) => ({ label: n.name, value: n.id }));
+        return data.npcs.map((n: WithId<NPCData>) => ({ key: `n-${n.id}`, label: n.name, value: n.id }));
       case "locations":
-        return data.locations.map((l: WithId<LocationData>) => ({ label: l.name, value: l.id }));
+        return data.locations.map((l: WithId<LocationData>) => ({ key: `l-${l.id}`, label: l.name, value: l.id }));
       case "timeline":
-        return data.timeline.events.map((e: WithId<EventData>) => ({ label: e.title, value: e.id }));
+        return data.timeline.events.map((e: WithId<EventData>) => ({ key: `e-${e.id}`, label: e.title, value: e.id }));
       default:
         return [];
     }
