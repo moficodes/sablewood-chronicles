@@ -1,9 +1,13 @@
+// cli/App.tsx (Replace entirely)
 import React, { useState, useEffect } from "react";
 import { Box, Text, useInput, useApp } from "ink";
 import SelectInput from "ink-select-input";
 import { readCampaign } from "./data";
 import type { Campaign } from "./schema";
 import path from "path";
+import { PlayerDetail, NPCDetail, LocationDetail, EventDetail } from "./components";
+
+type AppState = "nav" | "list" | "detail";
 
 const navItems = [
   { label: 'Players', value: 'players' },
@@ -12,68 +16,14 @@ const navItems = [
   { label: 'Timeline', value: 'timeline' },
 ];
 
-function RenderContent({ view, data }: { view: string, data: Campaign }) {
-  if (view === 'players') {
-    return (
-      <Box flexDirection="column">
-        <Text bold underline color="blue">Players ({data.players.length})</Text>
-        <Box flexDirection="column" marginTop={1}>
-          {data.players.map((p: any, i: number) => (
-            <Text key={i}>• {p.name} <Text color="gray">({p.ancestry} {p.class} lvl {p.level})</Text></Text>
-          ))}
-        </Box>
-      </Box>
-    );
-  }
-
-  if (view === 'npcs') {
-    return (
-      <Box flexDirection="column">
-        <Text bold underline color="yellow">NPCs ({data.npcs.length})</Text>
-        <Box flexDirection="column" marginTop={1}>
-          {data.npcs.map((n: any, i: number) => (
-            <Text key={i}>• {n.name} <Text color="gray">- {n.role} at {n.location}</Text></Text>
-          ))}
-        </Box>
-      </Box>
-    );
-  }
-
-  if (view === 'locations') {
-    return (
-      <Box flexDirection="column">
-        <Text bold underline color="green">Locations ({data.locations.length})</Text>
-        <Box flexDirection="column" marginTop={1}>
-          {data.locations.map((l: any, i: number) => (
-            <Text key={i}>• {l.name} <Text color="gray">({l.region})</Text></Text>
-          ))}
-        </Box>
-      </Box>
-    );
-  }
-
-  if (view === 'timeline') {
-    return (
-      <Box flexDirection="column">
-        <Text bold underline color="magenta">Timeline Events ({data.timeline.events.length})</Text>
-        <Box flexDirection="column" marginTop={1}>
-          {data.timeline.events.map((e: any, i: number) => (
-            <Text key={i}>• {e.title} <Text color="gray">[{e.type}]</Text></Text>
-          ))}
-        </Box>
-      </Box>
-    );
-  }
-
-  return <Text>Select an item from the menu.</Text>;
-}
-
 export function App() {
   const { exit } = useApp();
   const [data, setData] = useState<Campaign | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [activePane, setActivePane] = useState<"nav" | "main">("nav");
-  const [selectedView, setSelectedView] = useState("players");
+  
+  const [appState, setAppState] = useState<AppState>("nav");
+  const [selectedCategory, setSelectedCategory] = useState("players");
+  const [selectedEntityId, setSelectedEntityId] = useState<string | null>(null);
 
   useEffect(() => {
     const filePath = path.join(process.cwd(), "data", "campaign.yml");
@@ -83,16 +33,37 @@ export function App() {
   }, []);
 
   useInput((input, key) => {
-    if (key.escape || (input === 'q' && activePane === "nav")) {
-      exit();
+    if (key.escape) {
+      if (appState === "detail") setAppState("list");
+      else exit();
+      return;
     }
+    
+    if (input === 'q' && appState !== "detail") {
+      exit();
+      return;
+    }
+    
     if (key.tab) {
-      setActivePane(prev => prev === "nav" ? "main" : "nav");
+      if (appState === "nav") setAppState("list");
+      else if (appState === "list") setAppState("nav");
     }
   });
 
   if (error) return <Text color="red">Error loading data: {error}</Text>;
   if (!data) return <Text>Loading campaign data...</Text>;
+
+  // Compute current list items for the right pane based on category
+  let listItems: {label: string, value: string}[] = [];
+  if (selectedCategory === "players") listItems = data.players.map((p: any) => ({ label: p.name, value: p.id }));
+  if (selectedCategory === "npcs") listItems = data.npcs.map((n: any) => ({ label: n.name, value: n.id }));
+  if (selectedCategory === "locations") listItems = data.locations.map((l: any) => ({ label: l.name, value: l.id }));
+  if (selectedCategory === "timeline") listItems = data.timeline.events.map((e: any) => ({ label: e.title, value: e.id }));
+
+  const activeItemData = selectedEntityId 
+    ? (data as any)[selectedCategory === 'timeline' ? 'events' : selectedCategory]?.find((x: any) => x.id === selectedEntityId) || 
+      data.timeline.events.find((x: any) => x.id === selectedEntityId) // fallback for timeline nested search
+    : null;
 
   return (
     <Box flexDirection="column" minHeight={20} borderStyle="single">
@@ -108,15 +79,15 @@ export function App() {
         <Box 
           width="25%" 
           borderRight={true} borderStyle="single" borderTop={false} borderBottom={false} borderLeft={false}
-          borderColor={activePane === "nav" ? "blue" : "gray"}
+          borderColor={appState === "nav" ? "blue" : "gray"}
           flexDirection="column"
           paddingX={1}
         >
           <SelectInput 
             items={navItems} 
-            isFocused={activePane === "nav"}
-            onSelect={(item) => setSelectedView(item.value)}
-            onHighlight={(item) => setSelectedView(item.value)}
+            isFocused={appState === "nav"}
+            onSelect={(item) => setSelectedCategory(item.value)}
+            onHighlight={(item) => setSelectedCategory(item.value)}
           />
         </Box>
 
@@ -124,17 +95,33 @@ export function App() {
         <Box 
           flexGrow={1} 
           paddingX={1} 
-          borderColor={activePane === "main" ? "blue" : "gray"}
-          borderStyle={activePane === "main" ? "single" : undefined}
+          borderColor={appState !== "nav" ? "blue" : "gray"}
+          borderStyle={appState !== "nav" ? "single" : undefined}
           flexDirection="column"
         >
-          <RenderContent view={selectedView} data={data} />
+          {appState === "detail" ? (
+            <Box>
+              {selectedCategory === "players" && <PlayerDetail data={activeItemData} />}
+              {selectedCategory === "npcs" && <NPCDetail data={activeItemData} />}
+              {selectedCategory === "locations" && <LocationDetail data={activeItemData} />}
+              {selectedCategory === "timeline" && <EventDetail data={activeItemData} />}
+            </Box>
+          ) : (
+            <SelectInput 
+              items={listItems} 
+              isFocused={appState === "list"}
+              onSelect={(item) => {
+                setSelectedEntityId(item.value);
+                setAppState("detail");
+              }}
+            />
+          )}
         </Box>
       </Box>
 
       {/* Footer */}
       <Box borderTop={true} borderStyle="single" paddingX={1} borderBottom={false} borderLeft={false} borderRight={false}>
-        <Text color="gray">[tab] Switch Panes | [q] Quit</Text>
+        <Text color="gray">[tab] Switch Panes | [Enter] Select Item | [Esc] Go Back/Quit</Text>
       </Box>
     </Box>
   );
