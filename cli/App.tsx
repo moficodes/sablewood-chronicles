@@ -12,6 +12,62 @@ const navItems = [
   { label: 'Timeline', value: 'timeline' },
 ];
 
+function RenderContent({ view, data }: { view: string, data: Campaign }) {
+  if (view === 'players') {
+    return (
+      <Box flexDirection="column">
+        <Text bold underline color="blue">Players ({data.players.length})</Text>
+        <Box flexDirection="column" marginTop={1}>
+          {data.players.map((p: any, i: number) => (
+            <Text key={i}>• {p.name} <Text color="gray">({p.ancestry} {p.class} lvl {p.level})</Text></Text>
+          ))}
+        </Box>
+      </Box>
+    );
+  }
+
+  if (view === 'npcs') {
+    return (
+      <Box flexDirection="column">
+        <Text bold underline color="yellow">NPCs ({data.npcs.length})</Text>
+        <Box flexDirection="column" marginTop={1}>
+          {data.npcs.map((n: any, i: number) => (
+            <Text key={i}>• {n.name} <Text color="gray">- {n.role} at {n.location}</Text></Text>
+          ))}
+        </Box>
+      </Box>
+    );
+  }
+
+  if (view === 'locations') {
+    return (
+      <Box flexDirection="column">
+        <Text bold underline color="green">Locations ({data.locations.length})</Text>
+        <Box flexDirection="column" marginTop={1}>
+          {data.locations.map((l: any, i: number) => (
+            <Text key={i}>• {l.name} <Text color="gray">({l.region})</Text></Text>
+          ))}
+        </Box>
+      </Box>
+    );
+  }
+
+  if (view === 'timeline') {
+    return (
+      <Box flexDirection="column">
+        <Text bold underline color="magenta">Timeline Events ({data.timeline.events.length})</Text>
+        <Box flexDirection="column" marginTop={1}>
+          {data.timeline.events.map((e: any, i: number) => (
+            <Text key={i}>• {e.title} <Text color="gray">[{e.type}]</Text></Text>
+          ))}
+        </Box>
+      </Box>
+    );
+  }
+
+  return <Text>Select an item from the menu.</Text>;
+}
+
 export function App() {
   const { exit } = useApp();
   const [data, setData] = useState<Campaign | null>(null);
@@ -70,8 +126,9 @@ export function App() {
           paddingX={1} 
           borderColor={activePane === "main" ? "blue" : "gray"}
           borderStyle={activePane === "main" ? "single" : undefined}
+          flexDirection="column"
         >
-          <Text>Currently viewing: {selectedView}</Text>
+          <RenderContent view={selectedView} data={data} />
         </Box>
       </Box>
 
