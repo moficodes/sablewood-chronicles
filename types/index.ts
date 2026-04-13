@@ -106,13 +106,20 @@ export interface WantedPerson {
   lastSeenLocation?: string;
 }
 
+export interface HomeHeader {
+  title: string;
+  description: string;
+  navBrand: string;
+}
+
 export interface HomeData {
-  nextSession: string;
-  activeQuest: Quest;
-  questList: Quest[];
-  mostWanted: WantedPerson[];
-  lastLocationId: string;
-  nextDestinationId: string;
+  header?: HomeHeader;
+  nextSession?: string;
+  activeQuest?: Quest;
+  questList?: Quest[];
+  mostWanted?: WantedPerson[];
+  lastLocationId?: string;
+  nextDestinationId?: string;
 }
 
 export interface CampaignData {

@@ -228,8 +228,8 @@ export function App() {
     <Box flexDirection="column" width={columns} height={rows} borderStyle="single">
       {/* Header */}
       <Box borderBottom={true} borderStyle="single" paddingX={1} borderTop={false} borderLeft={false} borderRight={false}>
-        <Text bold>Sablewood Chronicles - CLI Manager | </Text>
-        <Text color="green">Next Session: {data.home.nextSession}</Text>
+        <Text bold>{data.home.header?.title || "Sablewood Chronicles"} - CLI Manager | </Text>
+        <Text color="green">Next Session: {data.home.nextSession || "Not scheduled yet"}</Text>
       </Box>
 
       {/* Main Body */}

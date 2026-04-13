@@ -14,12 +14,24 @@ const home = program.command("home").description("Manage home configuration");
 home
   .command("update")
   .description("Update home configuration")
+  .option("--title <string>", "Header Title")
+  .option("--description <string>", "Header Description")
+  .option("--navBrand <string>", "Navbar Brand Name")
   .option("--nextSession <string>", "Next session date/time")
   .option("--lastLocationId <string>", "Last location ID")
   .option("--nextDestinationId <string>", "Next destination ID")
   .action(async (options) => {
     try {
       const data = await readCampaign(CAMPAIGN_FILE);
+      
+      // Handle header updates
+      if (options.title || options.description || options.navBrand) {
+        if (!data.home.header) data.home.header = { title: "", description: "", navBrand: "" };
+        if (options.title) data.home.header.title = options.title;
+        if (options.description) data.home.header.description = options.description;
+        if (options.navBrand) data.home.header.navBrand = options.navBrand;
+      }
+
       if (options.nextSession) data.home.nextSession = options.nextSession;
       if (options.lastLocationId) data.home.lastLocationId = options.lastLocationId;
       if (options.nextDestinationId) data.home.nextDestinationId = options.nextDestinationId;
@@ -297,7 +309,7 @@ quest.command("list").action(async () => {
   try {
     const data = await readCampaign(CAMPAIGN_FILE);
     console.log("Active Quest:", data.home.activeQuest?.title || "None");
-    console.log("Quest List:", JSON.stringify(data.home.questList.map((q: any) => q.title), null, 2));
+    console.log("Quest List:", JSON.stringify((data.home.questList || []).map((q: any) => q.title), null, 2));
   } catch (err) {
     console.error(err);
     process.exit(1);
@@ -312,6 +324,9 @@ quest.command("add")
   .action(async (options) => {
     try {
       const data = await readCampaign(CAMPAIGN_FILE);
+      if (!data.home.questList) {
+        data.home.questList = [];
+      }
       if (data.home.questList.some((q: any) => q.title === options.title)) {
         console.error(`Quest with title ${options.title} already exists.`);
         process.exit(1);
@@ -333,6 +348,9 @@ quest.command("update")
   .action(async (title, options) => {
     try {
       const data = await readCampaign(CAMPAIGN_FILE);
+      if (!data.home.questList) {
+        data.home.questList = [];
+      }
       const index = data.home.questList.findIndex((q: any) => q.title === title);
       
       if (index === -1) {
@@ -358,6 +376,9 @@ quest.command("delete")
   .action(async (title) => {
     try {
       const data = await readCampaign(CAMPAIGN_FILE);
+      if (!data.home.questList) {
+        data.home.questList = [];
+      }
       const exists = data.home.questList.some((q: any) => q.title === title) || 
                      (data.home.activeQuest && data.home.activeQuest.title === title);
       
@@ -372,7 +393,7 @@ quest.command("delete")
         // For now, let's reset it if it matches. This assumes schema validation won't fail.
         // A safer way would be to just let the array filter handle "questList" and maybe 
         // leave activeQuest alone unless explicitly clearing it, but we'll try to clear the title.
-        data.home.activeQuest = { title: "", status: "", locationId: "" };
+        data.home.activeQuest = undefined; // Assuming it's now optional
       }
       
       await writeCampaign(data, CAMPAIGN_FILE);

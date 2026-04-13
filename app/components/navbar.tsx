@@ -14,7 +14,7 @@ const NAV_LINKS = [
   { name: "Timeline", href: "/timeline" },
 ];
 
-export function Navbar() {
+export function Navbar({ brand = "Sablewood" }: { brand?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -24,7 +24,7 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="font-bold text-xl text-primary font-sans">
-              Sablewood
+              {brand}
             </Link>
           </div>
           

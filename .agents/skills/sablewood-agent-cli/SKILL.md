@@ -23,6 +23,9 @@ Entities supported: `home`, `npc`, `location`, `event`, `player`, `quest`
 ```bash
 # Update the next session date
 bun run agent home update --nextSession "June 1st, 2026"
+
+# Update website header information
+bun run agent home update --title "New Campaign Name" --description "New welcome text" --navBrand "ShortName"
 ```
 
 ### CRUD Entities (NPC, Location, Event, Player)

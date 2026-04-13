@@ -14,13 +14,20 @@ export const WantedPersonSchema = z.object({
   lastSeenLocation: z.string().optional()
 });
 
+export const HomeHeaderSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  navBrand: z.string()
+});
+
 export const HomeSchema = z.object({
-  nextSession: z.string(),
-  activeQuest: QuestSchema,
-  questList: z.array(QuestSchema),
-  mostWanted: z.array(WantedPersonSchema),
-  lastLocationId: z.string(),
-  nextDestinationId: z.string()
+  header: HomeHeaderSchema.optional(),
+  nextSession: z.string().optional(),
+  activeQuest: QuestSchema.optional(),
+  questList: z.array(QuestSchema).optional(),
+  mostWanted: z.array(WantedPersonSchema).optional(),
+  lastLocationId: z.string().optional(),
+  nextDestinationId: z.string().optional()
 });
 
 export const CampaignSchema = z.object({
