@@ -11,18 +11,23 @@ A non-TUI CLI tool designed specifically for autonomous agents to modify the `@d
 ## Commands Structure
 
 - `bun run agent-cli home update [options]` (e.g. `--nextSession`)
+- `bun run agent-cli npc list`
 - `bun run agent-cli npc add [options]`
 - `bun run agent-cli npc update <id> [options]`
 - `bun run agent-cli npc delete <id>`
+- `bun run agent-cli location list`
 - `bun run agent-cli location add [options]`
 - `bun run agent-cli location update <id> [options]`
 - `bun run agent-cli location delete <id>`
+- `bun run agent-cli event list`
 - `bun run agent-cli event add [options]`
 - `bun run agent-cli event update <id> [options]`
 - `bun run agent-cli event delete <id>`
+- `bun run agent-cli player list`
 - `bun run agent-cli player add [options]`
 - `bun run agent-cli player update <id> [options]`
 - `bun run agent-cli player delete <id>`
+- `bun run agent-cli quest list`
 - `bun run agent-cli quest add [options]`
 - `bun run agent-cli quest update <title> [options]`
 - `bun run agent-cli quest delete <title>`
