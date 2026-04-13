@@ -6,21 +6,33 @@ import TextInput from 'ink-text-input';
 export interface WizardStep {
   key: string;
   prompt: string;
+  validate?: (val: string) => boolean | string;
 }
 
-export interface WizardProps {
+export interface WizardProps<T extends Record<string, unknown>> {
   steps: WizardStep[];
-  initialData?: any;
-  onSubmit: (data: any) => void;
+  initialData?: Partial<T>;
+  onSubmit: (data: T) => void;
   onCancel: () => void;
 }
 
-export function Wizard({ steps, initialData = {}, onSubmit, onCancel }: WizardProps) {
+export function Wizard<T extends Record<string, unknown>>({ 
+  steps, 
+  initialData, 
+  onSubmit, 
+  onCancel 
+}: WizardProps<T>) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [draftData, setDraftData] = useState<any>({ ...initialData });
+  const initData = initialData || {} as Partial<T>;
+  const [draftData, setDraftData] = useState<Partial<T>>({ ...initData });
+  
+  const firstKey = steps[0]?.key;
+  const initial = firstKey && initData ? (initData as Record<string, unknown>)[firstKey] : undefined;
+  
   const [currentInput, setCurrentInput] = useState(
-    initialData[steps[0]?.key] !== undefined ? String(initialData[steps[0]?.key]) : ""
+    initial !== undefined ? String(initial) : ""
   );
+  const [error, setError] = useState<string | null>(null);
 
   const currentStep = steps[currentStepIndex];
 
@@ -32,15 +44,30 @@ export function Wizard({ steps, initialData = {}, onSubmit, onCancel }: WizardPr
   });
 
   const handleSubmit = (value: string) => {
-    const updatedDraft = { ...draftData, [currentStep.key]: value };
+    if (currentStep?.validate) {
+      const validationResult = currentStep.validate(value);
+      if (validationResult === false) {
+        setError("Invalid input.");
+        return;
+      }
+      if (typeof validationResult === "string") {
+        setError(validationResult);
+        return;
+      }
+    }
+    
+    setError(null);
+
+    const updatedDraft = { ...draftData, [currentStep!.key]: value } as Partial<T>;
     setDraftData(updatedDraft);
 
     if (currentStepIndex < steps.length - 1) {
       const nextStep = steps[currentStepIndex + 1];
-      setCurrentInput(updatedDraft[nextStep.key] !== undefined ? String(updatedDraft[nextStep.key]) : "");
+      const nextVal = (updatedDraft as Record<string, unknown>)[nextStep!.key];
+      setCurrentInput(nextVal !== undefined ? String(nextVal) : "");
       setCurrentStepIndex(currentStepIndex + 1);
     } else {
-      onSubmit(updatedDraft);
+      onSubmit(updatedDraft as T);
     }
   };
 
@@ -53,10 +80,18 @@ export function Wizard({ steps, initialData = {}, onSubmit, onCancel }: WizardPr
         <Text color="green">{currentStep.prompt} </Text>
         <TextInput 
           value={currentInput} 
-          onChange={setCurrentInput} 
+          onChange={(val) => {
+            setCurrentInput(val);
+            setError(null);
+          }} 
           onSubmit={handleSubmit}
         />
       </Box>
+      {error && (
+        <Box marginTop={1}>
+          <Text color="red">{error}</Text>
+        </Box>
+      )}
       <Box marginTop={1}>
         <Text color="gray">[Enter] Submit | [Esc] Cancel</Text>
       </Box>
