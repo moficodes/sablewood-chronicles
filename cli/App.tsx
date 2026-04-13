@@ -2,11 +2,38 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Box, Text, useInput, useApp } from "ink";
 import SelectInput from "ink-select-input";
-import { readCampaign } from "./data";
+import { readCampaign, writeCampaign } from "./data";
+import { Wizard, type WizardStep } from "./Wizard";
 import type { Campaign } from "./schema";
 import path from "path";
 import { PlayerDetail, NPCDetail, LocationDetail, EventDetail } from "./components";
 import type { PlayerData, NPCData, LocationData, EventData } from "./components";
+
+const PLAYER_WIZARD_STEPS: WizardStep[] = [
+  { key: "id", prompt: "ID (e.g. p1):" },
+  { key: "name", prompt: "Name:" },
+  { key: "ancestry", prompt: "Ancestry:" },
+  { key: "class", prompt: "Class:" },
+  { key: "subclass", prompt: "Subclass:" },
+  { key: "level", prompt: "Level (number):" },
+  { key: "description", prompt: "Description:" },
+];
+
+const NPC_WIZARD_STEPS: WizardStep[] = [
+  { key: "id", prompt: "ID (e.g. n1):" },
+  { key: "name", prompt: "Name:" },
+  { key: "role", prompt: "Role:" },
+  { key: "location", prompt: "Location:" },
+  { key: "attitudeTowardParty", prompt: "Attitude:" },
+  { key: "description", prompt: "Description:" },
+];
+
+const LOCATION_WIZARD_STEPS: WizardStep[] = [
+  { key: "id", prompt: "ID (e.g. l1):" },
+  { key: "name", prompt: "Name:" },
+  { key: "region", prompt: "Region:" },
+  { key: "description", prompt: "Description:" },
+];
 
 function useTerminalSize() {
   const [size, setSize] = useState({
@@ -32,7 +59,7 @@ function useTerminalSize() {
 
 type WithId<T> = T & { id: string };
 
-type AppState = "nav" | "list" | "detail";
+type AppState = "nav" | "list" | "detail" | "edit" | "create";
 
 const navItems = [
   { label: 'Players', value: 'players' },
@@ -59,9 +86,22 @@ export function App() {
   }, []);
 
   useInput((input, key) => {
+    // Disable global keys when in wizard forms
+    if (appState === "edit" || appState === "create") return;
+
     if (key.escape) {
       if (appState === "detail") setAppState("list");
       else if (appState === "list") setAppState("nav");
+      return;
+    }
+    
+    if (input === 'e' && appState === "detail") {
+      setAppState("edit");
+      return;
+    }
+
+    if (input === 'c' && (appState === "nav" || appState === "list")) {
+      setAppState("create");
       return;
     }
     
