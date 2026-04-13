@@ -8,6 +8,28 @@ import path from "path";
 import { PlayerDetail, NPCDetail, LocationDetail, EventDetail } from "./components";
 import type { PlayerData, NPCData, LocationData, EventData } from "./components";
 
+function useTerminalSize() {
+  const [size, setSize] = useState({
+    columns: process.stdout.columns || 80,
+    rows: process.stdout.rows || 24,
+  });
+
+  useEffect(() => {
+    const onResize = () => {
+      setSize({
+        columns: process.stdout.columns,
+        rows: process.stdout.rows,
+      });
+    };
+    process.stdout.on("resize", onResize);
+    return () => {
+      process.stdout.off("resize", onResize);
+    };
+  }, []);
+
+  return size;
+}
+
 type WithId<T> = T & { id: string };
 
 type AppState = "nav" | "list" | "detail";
@@ -21,6 +43,7 @@ const navItems = [
 
 export function App() {
   const { exit } = useApp();
+  const { columns, rows } = useTerminalSize();
   const [data, setData] = useState<Campaign | null>(null);
   const [error, setError] = useState<string | null>(null);
   
@@ -44,6 +67,7 @@ export function App() {
     
     // q to quit anytime (unless typing in a future form)
     if (input === 'q') {
+      process.stdout.write("\x1b[?1049l");
       exit();
       return;
     }
@@ -87,7 +111,7 @@ export function App() {
   if (!data) return <Text>Loading campaign data...</Text>;
 
   return (
-    <Box flexDirection="column" minHeight={20} borderStyle="single">
+    <Box flexDirection="column" width={columns} height={rows} borderStyle="single">
       {/* Header */}
       <Box borderBottom={true} borderStyle="single" paddingX={1} borderTop={false} borderLeft={false} borderRight={false}>
         <Text bold>Sablewood Chronicles - CLI Manager | </Text>
