@@ -53,11 +53,9 @@ export function App() {
     }
   });
 
-  if (error) return <Text color="red">Error loading data: {error}</Text>;
-  if (!data) return <Text>Loading campaign data...</Text>;
-
   // Compute current list items for the right pane based on category
   const listItems = useMemo(() => {
+    if (!data) return [];
     switch (selectedCategory) {
       case "players":
         return data.players.map((p: WithId<PlayerData>) => ({ key: `p-${p.id}`, label: p.name, value: p.id }));
@@ -73,7 +71,7 @@ export function App() {
   }, [data, selectedCategory]);
 
   const activeItemData = useMemo(() => {
-    if (!selectedEntityId) return null;
+    if (!data || !selectedEntityId) return null;
 
     switch (selectedCategory) {
       case "players":
@@ -88,6 +86,9 @@ export function App() {
         return null;
     }
   }, [data, selectedCategory, selectedEntityId]);
+
+  if (error) return <Text color="red">Error loading data: {error}</Text>;
+  if (!data) return <Text>Loading campaign data...</Text>;
 
   return (
     <Box flexDirection="column" minHeight={20} borderStyle="single">
