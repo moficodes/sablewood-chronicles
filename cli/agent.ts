@@ -31,4 +31,51 @@ home
     }
   });
 
+const npc = program.command("npc").description("Manage NPCs");
+
+npc.command("list").action(async () => {
+  const data = await readCampaign(CAMPAIGN_FILE);
+  console.log(JSON.stringify(data.npcs.map((n: any) => ({ id: n.id, name: n.name })), null, 2));
+});
+
+npc.command("add")
+  .requiredOption("--id <string>", "NPC ID")
+  .requiredOption("--name <string>", "NPC Name")
+  .option("--role <string>", "NPC Role")
+  .option("--location <string>", "NPC Location")
+  .option("--description <string>", "NPC Description")
+  .action(async (options) => {
+    const data = await readCampaign(CAMPAIGN_FILE);
+    data.npcs.push(options);
+    await writeCampaign(data, CAMPAIGN_FILE);
+    console.log(`Added NPC: ${options.name}`);
+  });
+
+npc.command("update")
+  .argument("<id>", "NPC ID")
+  .option("--name <string>")
+  .option("--role <string>")
+  .option("--location <string>")
+  .option("--description <string>")
+  .action(async (id, options) => {
+    const data = await readCampaign(CAMPAIGN_FILE);
+    const index = data.npcs.findIndex((n: any) => n.id === id);
+    if (index === -1) {
+      console.error(`NPC with id ${id} not found.`);
+      process.exit(1);
+    }
+    data.npcs[index] = { ...data.npcs[index], ...options };
+    await writeCampaign(data, CAMPAIGN_FILE);
+    console.log(`Updated NPC: ${id}`);
+  });
+
+npc.command("delete")
+  .argument("<id>", "NPC ID")
+  .action(async (id) => {
+    const data = await readCampaign(CAMPAIGN_FILE);
+    data.npcs = data.npcs.filter((n: any) => n.id !== id);
+    await writeCampaign(data, CAMPAIGN_FILE);
+    console.log(`Deleted NPC: ${id}`);
+  });
+
 program.parse(process.argv);
