@@ -35,6 +35,13 @@ const LOCATION_WIZARD_STEPS: WizardStep[] = [
   { key: "description", prompt: "Description:" },
 ];
 
+const TIMELINE_WIZARD_STEPS: WizardStep[] = [
+  { key: "id", prompt: "ID (e.g. evt-001):" },
+  { key: "title", prompt: "Title:" },
+  { key: "type", prompt: "Type (e.g. combat, npc_meet):" },
+  { key: "description", prompt: "Description:" },
+];
+
 function useTerminalSize() {
   const [size, setSize] = useState({
     columns: process.stdout.columns || 80,
@@ -152,7 +159,7 @@ export function App() {
     // Ensure numeric fields are cast (basic safety for form string outputs)
     if (mutatedData.level) mutatedData.level = parseInt(mutatedData.level, 10);
     
-    const newData = { ...data };
+    const newData = structuredClone(data);
     
     const arrayName = selectedCategory === "timeline" ? "events" : selectedCategory;
     const arrayPath = selectedCategory === "timeline" ? newData.timeline.events : (newData as any)[selectedCategory];
@@ -222,6 +229,7 @@ export function App() {
               steps={
                 selectedCategory === "players" ? PLAYER_WIZARD_STEPS : 
                 selectedCategory === "npcs" ? NPC_WIZARD_STEPS : 
+                selectedCategory === "timeline" ? TIMELINE_WIZARD_STEPS :
                 LOCATION_WIZARD_STEPS // Add more as needed
               }
               initialData={appState === "edit" ? activeItemData || {} : {}}
