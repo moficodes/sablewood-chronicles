@@ -2,7 +2,58 @@
 import React from 'react';
 import { Box, Text } from 'ink';
 
-export function PlayerDetail({ data }: { data: any }) {
+export interface PlayerData {
+  name: string;
+  ancestry: string;
+  class: string;
+  subclass: string;
+  level: number | string;
+  description: string;
+  stats?: {
+    agility: number | string;
+    strength: number | string;
+    finesse: number | string;
+    instinct: number | string;
+    presence: number | string;
+    knowledge: number | string;
+  };
+}
+
+export interface NPCData {
+  name: string;
+  role: string;
+  location: string;
+  attitudeTowardParty: string;
+  description: string;
+}
+
+export interface LocationData {
+  name: string;
+  region: string;
+  description: string;
+}
+
+export interface EventData {
+  title: string;
+  type: string;
+  description: string;
+  time?: {
+    era: string;
+    year: number | string;
+    month: string;
+    day: number | string;
+  };
+}
+
+function ReturnInstruction() {
+  return (
+    <Box marginTop={1}>
+      <Text color="gray">Press [Esc] to return to list</Text>
+    </Box>
+  );
+}
+
+export function PlayerDetail({ data }: { data: PlayerData | null }) {
   if (!data) return <Text>Player not found.</Text>;
   return (
     <Box flexDirection="column" padding={1}>
@@ -17,12 +68,12 @@ export function PlayerDetail({ data }: { data: any }) {
         <Text>Agility: {data.stats?.agility} | Strength: {data.stats?.strength} | Finesse: {data.stats?.finesse}</Text>
         <Text>Instinct: {data.stats?.instinct} | Presence: {data.stats?.presence} | Knowledge: {data.stats?.knowledge}</Text>
       </Box>
-      <Box marginTop={1}><Text color="gray">Press [Esc] to return to list</Text></Box>
+      <ReturnInstruction />
     </Box>
   );
 }
 
-export function NPCDetail({ data }: { data: any }) {
+export function NPCDetail({ data }: { data: NPCData | null }) {
   if (!data) return <Text>NPC not found.</Text>;
   return (
     <Box flexDirection="column" padding={1}>
@@ -36,12 +87,12 @@ export function NPCDetail({ data }: { data: any }) {
         <Text bold>Description:</Text>
         <Text>{data.description}</Text>
       </Box>
-      <Box marginTop={1}><Text color="gray">Press [Esc] to return to list</Text></Box>
+      <ReturnInstruction />
     </Box>
   );
 }
 
-export function LocationDetail({ data }: { data: any }) {
+export function LocationDetail({ data }: { data: LocationData | null }) {
   if (!data) return <Text>Location not found.</Text>;
   return (
     <Box flexDirection="column" padding={1}>
@@ -51,12 +102,12 @@ export function LocationDetail({ data }: { data: any }) {
         <Text bold>Description:</Text>
         <Text>{data.description}</Text>
       </Box>
-      <Box marginTop={1}><Text color="gray">Press [Esc] to return to list</Text></Box>
+      <ReturnInstruction />
     </Box>
   );
 }
 
-export function EventDetail({ data }: { data: any }) {
+export function EventDetail({ data }: { data: EventData | null }) {
   if (!data) return <Text>Event not found.</Text>;
   return (
     <Box flexDirection="column" padding={1}>
@@ -70,7 +121,7 @@ export function EventDetail({ data }: { data: any }) {
         <Text bold>Description:</Text>
         <Text>{data.description}</Text>
       </Box>
-      <Box marginTop={1}><Text color="gray">Press [Esc] to return to list</Text></Box>
+      <ReturnInstruction />
     </Box>
   );
 }
