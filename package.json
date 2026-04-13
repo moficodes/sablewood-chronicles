@@ -5,6 +5,7 @@
   "workspaces": ["admin"],
   "scripts": {
     "dev": "next dev",
+    "dev:admin": "bun run --cwd admin dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
