@@ -216,12 +216,21 @@ export function App() {
         {/* Content Pane */}
         <Box 
           flexGrow={1} 
+          flexBasis="75%"
           paddingX={1} 
           borderColor={appState !== "nav" ? "blue" : "gray"}
           borderStyle={appState !== "nav" ? "single" : undefined}
           flexDirection="column"
+          overflow="hidden"
         >
-          {appState === "edit" || appState === "create" ? (
+          {appState === "detail" ? (
+            <Box flexDirection="column" overflow="hidden">
+              {selectedCategory === "players" && <PlayerDetail data={activeItemData as WithId<PlayerData> | null} />}
+              {selectedCategory === "npcs" && <NPCDetail data={activeItemData as WithId<NPCData> | null} />}
+              {selectedCategory === "locations" && <LocationDetail data={activeItemData as WithId<LocationData> | null} />}
+              {selectedCategory === "timeline" && <EventDetail data={activeItemData as WithId<EventData> | null} />}
+            </Box>
+          ) : appState === "edit" || appState === "create" ? (
             <Wizard 
               steps={
                 selectedCategory === "players" ? PLAYER_WIZARD_STEPS : 
@@ -233,13 +242,6 @@ export function App() {
               onSubmit={handleSave}
               onCancel={() => setAppState(appState === "edit" ? "detail" : "list")}
             />
-          ) : appState === "detail" ? (
-            <Box>
-              {selectedCategory === "players" && <PlayerDetail data={activeItemData as WithId<PlayerData> | null} />}
-              {selectedCategory === "npcs" && <NPCDetail data={activeItemData as WithId<NPCData> | null} />}
-              {selectedCategory === "locations" && <LocationDetail data={activeItemData as WithId<LocationData> | null} />}
-              {selectedCategory === "timeline" && <EventDetail data={activeItemData as WithId<EventData> | null} />}
-            </Box>
           ) : (
             <SelectInput 
               items={listItems} 
