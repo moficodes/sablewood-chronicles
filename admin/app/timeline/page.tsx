@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function TimelineList() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<unknown>(null);
 
   useEffect(() => {
     fetch('/api/campaign').then(res => res.json()).then(setData);
@@ -34,7 +34,7 @@ export default function TimelineList() {
 
       <h2 className="text-xl font-bold mb-4">Events</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {data.timeline?.events?.map((event: any) => (
+        {data.timeline?.events?.map((event: unknown) => (
           <Link key={event.id} href={`/timeline/${event.id}`} className="block border p-4 rounded bg-white hover:border-blue-500">
             <h3 className="font-semibold">{event.title}</h3>
             <p className="text-sm text-gray-500 capitalize">{event.type?.replace('_', ' ')} - {event.sagaArc}</p>

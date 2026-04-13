@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function PlayerEdit({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const router = useRouter();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<unknown>(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function PlayerEdit({ params }: { params: Promise<{ id: string }>
 
   if (!data) return <div>Loading...</div>;
 
-  const playerIndex = data.players.findIndex((p: any) => p.id === resolvedParams.id);
+  const playerIndex = data.players.findIndex((p: unknown) => p.id === resolvedParams.id);
   const player = data.players[playerIndex];
 
   if (!player) return <div>Player not found</div>;

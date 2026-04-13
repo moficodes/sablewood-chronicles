@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function LocationEdit({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const router = useRouter();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<unknown>(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function LocationEdit({ params }: { params: Promise<{ id: string 
 
   if (!data) return <div>Loading...</div>;
 
-  const locationIndex = data.locations?.findIndex((l: any) => l.id === resolvedParams.id);
+  const locationIndex = data.locations?.findIndex((l: unknown) => l.id === resolvedParams.id);
   const location = locationIndex >= 0 ? data.locations[locationIndex] : null;
 
   if (!location) return <div>Location not found</div>;

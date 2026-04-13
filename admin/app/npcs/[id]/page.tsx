@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function NpcEdit({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const router = useRouter();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<unknown>(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function NpcEdit({ params }: { params: Promise<{ id: string }> })
 
   if (!data) return <div>Loading...</div>;
 
-  const npcIndex = data.npcs?.findIndex((n: any) => n.id === resolvedParams.id);
+  const npcIndex = data.npcs?.findIndex((n: unknown) => n.id === resolvedParams.id);
   const npc = npcIndex >= 0 ? data.npcs[npcIndex] : null;
 
   if (!npc) return <div>NPC not found</div>;

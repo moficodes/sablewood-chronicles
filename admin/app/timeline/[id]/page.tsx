@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function TimelineEventEdit({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const router = useRouter();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<unknown>(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function TimelineEventEdit({ params }: { params: Promise<{ id: st
 
   if (!data) return <div>Loading...</div>;
 
-  const eventIndex = data.timeline?.events?.findIndex((e: any) => e.id === resolvedParams.id);
+  const eventIndex = data.timeline?.events?.findIndex((e: unknown) => e.id === resolvedParams.id);
   const event = eventIndex >= 0 ? data.timeline.events[eventIndex] : null;
 
   if (!event) return <div>Event not found</div>;

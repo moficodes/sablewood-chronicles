@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 export default function HomeAdmin() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
