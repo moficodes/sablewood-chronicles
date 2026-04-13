@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import { Box, Text, useInput } from 'ink';
 import TextInput from 'ink-text-input';
-import set from 'lodash.set';
-import get from 'lodash.get';
+import { set, get } from 'lodash';
 
 export interface WizardStep {
   key: string;

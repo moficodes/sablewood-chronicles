@@ -190,7 +190,7 @@ export function App() {
     if (!data) return;
     
     // Ensure numeric fields are cast (basic safety for form string outputs)
-    if (mutatedData.level) mutatedData.level = parseInt(mutatedData.level, 10);
+    if (mutatedData.level) mutatedData.level = parseInt(String(mutatedData.level), 10);
     
     const newData = structuredClone(data);
     
@@ -204,7 +204,7 @@ export function App() {
     } else if (appState === "create") {
       mutatedData.id = Math.random().toString(36).substring(2, 10);
       arrayPath.push(mutatedData);
-      setSelectedEntityId(mutatedData.id); // Auto-select new item
+      setSelectedEntityId(mutatedData.id as string); // Auto-select new item
     }
 
     try {
