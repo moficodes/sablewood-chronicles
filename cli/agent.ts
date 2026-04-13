@@ -143,4 +143,78 @@ location.command("delete")
     }
   });
 
+const event = program.command("event").description("Manage Timeline Events");
+
+event.command("list").action(async () => {
+  try {
+    const data = await readCampaign(CAMPAIGN_FILE);
+    console.log(JSON.stringify(data.timeline.events.map((e: any) => ({ id: e.id, title: e.title })), null, 2));
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+});
+
+event.command("add")
+  .requiredOption("--id <string>", "Event ID")
+  .requiredOption("--title <string>", "Event Title")
+  .option("--type <string>", "Event Type")
+  .option("--description <string>", "Event Description")
+  .action(async (options) => {
+    try {
+      const data = await readCampaign(CAMPAIGN_FILE);
+      if (data.timeline.events.some((e: any) => e.id === options.id)) {
+        console.error(`Event with id ${options.id} already exists.`);
+        process.exit(1);
+      }
+      data.timeline.events.push({ ...options });
+      await writeCampaign(data, CAMPAIGN_FILE);
+      console.log(`Added Event: ${options.title}`);
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
+event.command("update")
+  .argument("<id>", "Event ID")
+  .option("--title <string>")
+  .option("--type <string>")
+  .option("--description <string>")
+  .action(async (id, options) => {
+    try {
+      const data = await readCampaign(CAMPAIGN_FILE);
+      const index = data.timeline.events.findIndex((e: any) => e.id === id);
+      if (index === -1) {
+        console.error(`Event with id ${id} not found.`);
+        process.exit(1);
+      }
+      data.timeline.events[index] = { ...data.timeline.events[index], ...options };
+      await writeCampaign(data, CAMPAIGN_FILE);
+      console.log(`Updated Event: ${id}`);
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
+event.command("delete")
+  .argument("<id>", "Event ID")
+  .action(async (id) => {
+    try {
+      const data = await readCampaign(CAMPAIGN_FILE);
+      const exists = data.timeline.events.some((e: any) => e.id === id);
+      if (!exists) {
+        console.error(`Event with id ${id} not found.`);
+        process.exit(1);
+      }
+      data.timeline.events = data.timeline.events.filter((e: any) => e.id !== id);
+      await writeCampaign(data, CAMPAIGN_FILE);
+      console.log(`Deleted Event: ${id}`);
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
 program.parse(process.argv);
