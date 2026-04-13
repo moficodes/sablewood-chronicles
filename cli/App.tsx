@@ -170,6 +170,7 @@ export function App() {
         arrayPath[index] = { ...arrayPath[index], ...mutatedData };
       }
     } else if (appState === "create") {
+      mutatedData.id = Math.random().toString(36).substring(2, 10);
       arrayPath.push(mutatedData);
       setSelectedEntityId(mutatedData.id); // Auto-select new item
     }
