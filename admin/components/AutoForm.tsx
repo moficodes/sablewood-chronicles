@@ -18,7 +18,7 @@ export function AutoForm({ schema, data, onChange }: AutoFormProps) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {Object.entries(schema).map(([key, fieldSchema]) => (
         <FormField 
           key={key} 
@@ -39,14 +39,15 @@ interface FormFieldProps {
 
 function FormField({ schema, value, onChange }: FormFieldProps) {
   const labelText = schema.label + (schema.optional ? ' (Optional)' : '');
+  const inputBaseClasses = "w-full bg-[#ffffff] p-4 rounded-2xl text-[#3e3101] placeholder:text-[#3e3101]/50 outline-none border-b-2 border-transparent focus:border-[#e05a33] transition-colors shadow-sm";
 
   if (schema.type === 'string') {
     return (
       <div>
-        <label className="block text-sm font-medium mb-1 text-gray-700">{labelText}</label>
+        <label className="block text-sm font-medium mb-2 text-[#3e3101] ml-1">{labelText}</label>
         <input 
           type="text" 
-          className="w-full border border-gray-300 p-2 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+          className={inputBaseClasses}
           value={value || ''} 
           onChange={(e) => onChange(e.target.value)} 
         />
@@ -57,9 +58,9 @@ function FormField({ schema, value, onChange }: FormFieldProps) {
   if (schema.type === 'textarea') {
     return (
       <div>
-        <label className="block text-sm font-medium mb-1 text-gray-700">{labelText}</label>
+        <label className="block text-sm font-medium mb-2 text-[#3e3101] ml-1">{labelText}</label>
         <textarea 
-          className="w-full border border-gray-300 p-2 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-[100px] bg-white"
+          className={`${inputBaseClasses} min-h-[120px] resize-y`}
           value={value || ''} 
           onChange={(e) => onChange(e.target.value)} 
         />
@@ -70,10 +71,10 @@ function FormField({ schema, value, onChange }: FormFieldProps) {
   if (schema.type === 'number') {
     return (
       <div>
-        <label className="block text-sm font-medium mb-1 text-gray-700">{labelText}</label>
+        <label className="block text-sm font-medium mb-2 text-[#3e3101] ml-1">{labelText}</label>
         <input 
           type="number" 
-          className="w-full border border-gray-300 p-2 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+          className={inputBaseClasses}
           value={value === undefined ? '' : value} 
           onChange={(e) => onChange(e.target.value === '' ? undefined : Number(e.target.value))} 
         />
@@ -84,8 +85,8 @@ function FormField({ schema, value, onChange }: FormFieldProps) {
   if (schema.type === 'object') {
     const safeValue = value || {};
     return (
-      <div className="border border-gray-200 rounded p-4 bg-gray-50 mb-2 mt-2">
-        <h3 className="font-semibold text-lg mb-3 text-gray-800">{labelText}</h3>
+      <div className="bg-[#fff3d5] rounded-3xl p-6 mb-4 mt-4 shadow-sm">
+        <h3 className="font-semibold text-lg mb-4 text-[#3e3101] ml-1">{labelText}</h3>
         <AutoForm 
           schema={schema.fields} 
           data={safeValue} 
@@ -120,15 +121,15 @@ function FormField({ schema, value, onChange }: FormFieldProps) {
     };
 
     return (
-      <div className="border border-gray-200 rounded p-4 bg-gray-50 mb-2 mt-2">
-        <h3 className="font-semibold text-lg mb-3 text-gray-800">{labelText}</h3>
+      <div className="bg-[#fff3d5] rounded-3xl p-6 mb-4 mt-4 shadow-sm">
+        <h3 className="font-semibold text-lg mb-4 text-[#3e3101] ml-1">{labelText}</h3>
         
         {safeArray.length === 0 ? (
-          <p className="text-sm text-gray-500 italic mb-3">No items yet.</p>
+          <p className="text-sm text-[#3e3101]/70 italic mb-4 ml-1">No items yet.</p>
         ) : (
-          <div className="space-y-4 mb-4">
+          <div className="space-y-4 mb-6">
             {safeArray.map((item, index) => (
-              <div key={index} className="flex gap-2 items-start border-l-2 border-blue-400 pl-3">
+              <div key={index} className="flex gap-4 items-start bg-[#fff8f0] p-4 rounded-2xl shadow-sm">
                 <div className="flex-1">
                   <FormField 
                     schema={{ ...schema.itemSchema, label: `Item ${index + 1}` }} 
@@ -138,7 +139,7 @@ function FormField({ schema, value, onChange }: FormFieldProps) {
                 </div>
                 <button 
                   onClick={() => handleRemove(index)}
-                  className="bg-red-100 text-red-600 px-3 py-1 rounded hover:bg-red-200 text-sm mt-7"
+                  className="bg-[#fff3d5] text-[#3e3101] px-4 py-2 rounded-2xl hover:bg-[#e05a33] hover:text-[#fff8f0] text-sm mt-8 transition-colors shadow-sm"
                 >
                   Remove
                 </button>
@@ -149,7 +150,7 @@ function FormField({ schema, value, onChange }: FormFieldProps) {
         
         <button 
           onClick={handleAdd}
-          className="bg-gray-200 text-gray-800 px-3 py-1 rounded hover:bg-gray-300 text-sm"
+          className="bg-gradient-to-r from-[#e05a33] to-[#c74421] text-[#fff8f0] px-6 py-3 rounded-2xl hover:opacity-90 text-sm font-semibold shadow-md transition-opacity ml-1"
         >
           + Add {schema.itemSchema.label || 'Item'}
         </button>
@@ -157,5 +158,5 @@ function FormField({ schema, value, onChange }: FormFieldProps) {
     );
   }
 
-  return <div>Unknown field type</div>;
+  return <div className="text-[#3e3101]">Unknown field type</div>;
 }
