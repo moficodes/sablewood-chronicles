@@ -2,47 +2,67 @@
 import React from 'react';
 import { Box, Text } from 'ink';
 
+export interface QuestionAnswer {
+  question: string;
+  answer: string;
+}
+
 export interface PlayerData {
+  id: string;
   name: string;
   ancestry: string;
   class: string;
   subclass: string;
-  level: number | string;
-  description: string;
+  level: number;
+  description?: string;
+  backstory?: string;
   stats?: {
-    agility: number | string;
-    strength: number | string;
-    finesse: number | string;
-    instinct: number | string;
-    presence: number | string;
-    knowledge: number | string;
+    agility: number;
+    strength: number;
+    finesse: number;
+    instinct: number;
+    presence: number;
+    knowledge: number;
   };
+  backgroundQuestions?: QuestionAnswer[];
+  connectionQuestions?: QuestionAnswer[];
+}
+
+export interface MemorableInteraction {
+  description: string;
+  highlight?: string;
 }
 
 export interface NPCData {
+  id: string;
   name: string;
   role: string;
   location: string;
-  attitudeTowardParty: string;
-  description: string;
+  attitudeTowardParty?: string;
+  description?: string;
+  memorableInteractions?: MemorableInteraction[];
 }
 
 export interface LocationData {
+  id: string;
   name: string;
   region: string;
-  description: string;
+  description?: string;
+  memorableInteractions?: MemorableInteraction[];
 }
 
 export interface EventData {
+  id: string;
   title: string;
   type: string;
-  description: string;
+  description?: string;
   time?: {
     era: string;
-    year: number | string;
+    year: number;
     month: string;
-    day: number | string;
+    day: number;
   };
+  pcNotes?: { pcId: string; note: string }[];
 }
 
 function ReturnInstruction() {
