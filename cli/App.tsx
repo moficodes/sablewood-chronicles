@@ -38,18 +38,15 @@ export function App() {
   useInput((input, key) => {
     if (key.escape) {
       if (appState === "detail") setAppState("list");
-      else exit();
+      else if (appState === "list") setAppState("nav");
+      else exit(); // Exit if hitting Esc from the top-level NAV
       return;
     }
     
-    if (input === 'q' && appState !== "detail") {
+    // q to quit anytime (unless typing in a future form)
+    if (input === 'q') {
       exit();
       return;
-    }
-    
-    if (key.tab) {
-      if (appState === "nav") setAppState("list");
-      else if (appState === "list") setAppState("nav");
     }
   });
 
@@ -111,7 +108,10 @@ export function App() {
           <SelectInput 
             items={navItems} 
             isFocused={appState === "nav"}
-            onSelect={(item) => setSelectedCategory(item.value)}
+            onSelect={(item) => {
+              setSelectedCategory(item.value);
+              setAppState("list");
+            }}
             onHighlight={(item) => setSelectedCategory(item.value)}
           />
         </Box>
@@ -146,7 +146,7 @@ export function App() {
 
       {/* Footer */}
       <Box borderTop={true} borderStyle="single" paddingX={1} borderBottom={false} borderLeft={false} borderRight={false}>
-        <Text color="gray">[tab] Switch Panes | [Enter] Select Item | [Esc] Go Back/Quit</Text>
+        <Text color="gray">[Enter] Select | [Esc] Go Back | [q] Quit</Text>
       </Box>
     </Box>
   );
