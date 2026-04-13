@@ -9,6 +9,16 @@ import path from "path";
 import { PlayerDetail, NPCDetail, LocationDetail, EventDetail } from "./components";
 import type { PlayerData, NPCData, LocationData, EventData } from "./components";
 
+const QUESTION_SUBSTEPS: WizardStep[] = [
+  { key: "question", prompt: "Question:" },
+  { key: "answer", prompt: "Answer:" }
+];
+
+const INTERACTION_SUBSTEPS: WizardStep[] = [
+  { key: "description", prompt: "Description:" },
+  { key: "highlight", prompt: "Highlight (optional):" }
+];
+
 const PLAYER_WIZARD_STEPS: WizardStep[] = [
   { key: "name", prompt: "Name:" },
   { key: "ancestry", prompt: "Ancestry:" },
@@ -16,6 +26,19 @@ const PLAYER_WIZARD_STEPS: WizardStep[] = [
   { key: "subclass", prompt: "Subclass:" },
   { key: "level", prompt: "Level (number):" },
   { key: "description", prompt: "Description:" },
+  { key: "backstory", prompt: "Backstory:" },
+  { 
+    key: "stats", prompt: "Stats", type: "object", substeps: [
+      { key: "agility", prompt: "Agility:" },
+      { key: "strength", prompt: "Strength:" },
+      { key: "finesse", prompt: "Finesse:" },
+      { key: "instinct", prompt: "Instinct:" },
+      { key: "presence", prompt: "Presence:" },
+      { key: "knowledge", prompt: "Knowledge:" }
+    ]
+  },
+  { key: "backgroundQuestions", prompt: "Background Questions", type: "array", substeps: QUESTION_SUBSTEPS },
+  { key: "connectionQuestions", prompt: "Connection Questions", type: "array", substeps: QUESTION_SUBSTEPS }
 ];
 
 const NPC_WIZARD_STEPS: WizardStep[] = [
@@ -24,18 +47,32 @@ const NPC_WIZARD_STEPS: WizardStep[] = [
   { key: "location", prompt: "Location:" },
   { key: "attitudeTowardParty", prompt: "Attitude:" },
   { key: "description", prompt: "Description:" },
+  { key: "memorableInteractions", prompt: "Memorable Interactions", type: "array", substeps: INTERACTION_SUBSTEPS }
 ];
 
 const LOCATION_WIZARD_STEPS: WizardStep[] = [
   { key: "name", prompt: "Name:" },
   { key: "region", prompt: "Region:" },
   { key: "description", prompt: "Description:" },
+  { key: "memorableInteractions", prompt: "Memorable Interactions", type: "array", substeps: INTERACTION_SUBSTEPS }
 ];
 
 const TIMELINE_WIZARD_STEPS: WizardStep[] = [
   { key: "title", prompt: "Title:" },
   { key: "type", prompt: "Type (e.g. combat, npc_meet):" },
   { key: "description", prompt: "Description:" },
+  {
+    key: "time", prompt: "Time", type: "object", substeps: [
+      { key: "era", prompt: "Era (e.g. The Second Age):" },
+      { key: "year", prompt: "Year:" },
+      { key: "month", prompt: "Month:" },
+      { key: "day", prompt: "Day:" }
+    ]
+  },
+  { key: "pcNotes", prompt: "PC Notes", type: "array", substeps: [
+    { key: "pcId", prompt: "PC ID (e.g. p1):" },
+    { key: "note", prompt: "Note:" }
+  ]}
 ];
 
 function useTerminalSize() {
