@@ -1,127 +1,64 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState, useEffect } from 'react';
 import { use } from 'react';
 import { useRouter } from 'next/navigation';
+import { AutoForm } from '../../../components/AutoForm';
+import { TimelineEventSchema } from '../../../lib/schemas/campaign';
+import { cleanData } from '../../../lib/utils';
 
 export default function TimelineEventEdit({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const router = useRouter();
-  const [data, setData] = useState<unknown>(null);
+  const [fullData, setFullData] = useState<any>(null);
+  const [eventData, setEventData] = useState<any>(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetch('/api/campaign').then(res => res.json()).then(setData);
-  }, []);
+    fetch('/api/campaign')
+      .then(res => res.json())
+      .then(data => {
+        setFullData(data);
+        const p = data.timeline.events.find((x: any) => x.id === resolvedParams.id);
+        setEventData(p);
+      });
+  }, [resolvedParams.id]);
 
   const handleSave = async () => {
+    if (!fullData || !eventData) return;
     setSaving(true);
+    
+    const cleanedEvent = cleanData(eventData, TimelineEventSchema);
+    
+    const newEvents = fullData.timeline.events.map((p: any) => 
+      p.id === resolvedParams.id ? cleanedEvent : p
+    );
+    
+    const payload = { ...fullData, timeline: { ...fullData.timeline, events: newEvents } };
+
     await fetch('/api/campaign', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
     });
+    
     setSaving(false);
     router.push('/timeline');
   };
 
-  if (!data) return <div>Loading...</div>;
-
-  const eventIndex = data.timeline?.events?.findIndex((e: unknown) => e.id === resolvedParams.id);
-  const event = eventIndex >= 0 ? data.timeline.events[eventIndex] : null;
-
-  if (!event) return <div>Event not found</div>;
-
-  const updateField = (field: string, value: string) => {
-    const newEvents = [...data.timeline.events];
-    newEvents[eventIndex] = { ...newEvents[eventIndex], [field]: value };
-    setData({
-      ...data,
-      timeline: {
-        ...data.timeline,
-        events: newEvents
-      }
-    });
-  };
-
-  const updateTimeField = (field: string, value: string | number) => {
-    const newEvents = [...data.timeline.events];
-    newEvents[eventIndex] = {
-      ...newEvents[eventIndex],
-      time: {
-        ...newEvents[eventIndex].time,
-        [field]: typeof value === 'string' && !isNaN(Number(value)) && field !== 'era' && field !== 'month' ? Number(value) : value
-      }
-    };
-    setData({
-      ...data,
-      timeline: {
-        ...data.timeline,
-        events: newEvents
-      }
-    });
-  };
+  if (!eventData) return <div className="text-[#3e3101] p-8 text-xl">Loading...</div>;
 
   return (
-    <div className="max-w-3xl mx-auto bg-white p-6 rounded shadow">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Edit Event: {event.title}</h1>
-        <button onClick={handleSave} disabled={saving} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-          {saving ? 'Saving...' : 'Save'}
+    <div className="max-w-4xl mx-auto bg-[#ffffff] p-8 rounded-3xl shadow-xl shadow-[#3e3101]/5">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-[#3e3101]">Edit {eventData.title || 'Event'}</h1>
+        <button onClick={handleSave} disabled={saving} className="bg-gradient-to-r from-[#e05a33] to-[#c74421] text-white px-6 py-3 rounded-2xl hover:opacity-90 disabled:opacity-50 transition-opacity font-medium shadow-md shadow-[#e05a33]/20">
+          {saving ? 'Saving...' : 'Save Changes'}
         </button>
       </div>
 
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Title</label>
-          <input type="text" className="w-full border p-2 rounded" value={event.title || ''} onChange={(e) => updateField('title', e.target.value)} />
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Type</label>
-            <input type="text" className="w-full border p-2 rounded" value={event.type || ''} onChange={(e) => updateField('type', e.target.value)} />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Saga Arc</label>
-            <input type="text" className="w-full border p-2 rounded" value={event.sagaArc || ''} onChange={(e) => updateField('sagaArc', e.target.value)} />
-          </div>
-        </div>
-
-        <div className="border p-4 rounded bg-gray-50 space-y-4">
-          <h3 className="font-semibold text-sm">Time Settings</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-xs font-medium mb-1">Era</label>
-              <input type="text" className="w-full border p-2 rounded text-sm" value={event.time?.era || ''} onChange={(e) => updateTimeField('era', e.target.value)} />
-            </div>
-            <div>
-              <label className="block text-xs font-medium mb-1">Year</label>
-              <input type="number" className="w-full border p-2 rounded text-sm" value={event.time?.year || ''} onChange={(e) => updateTimeField('year', e.target.value)} />
-            </div>
-            <div>
-              <label className="block text-xs font-medium mb-1">Month</label>
-              <input type="text" className="w-full border p-2 rounded text-sm" value={event.time?.month || ''} onChange={(e) => updateTimeField('month', e.target.value)} />
-            </div>
-            <div>
-              <label className="block text-xs font-medium mb-1">Day</label>
-              <input type="number" className="w-full border p-2 rounded text-sm" value={event.time?.day || ''} onChange={(e) => updateTimeField('day', e.target.value)} />
-            </div>
-            <div>
-              <label className="block text-xs font-medium mb-1">Hour</label>
-              <input type="number" className="w-full border p-2 rounded text-sm" value={event.time?.hour || ''} onChange={(e) => updateTimeField('hour', e.target.value)} />
-            </div>
-            <div>
-              <label className="block text-xs font-medium mb-1">Minute</label>
-              <input type="number" className="w-full border p-2 rounded text-sm" value={event.time?.minute || ''} onChange={(e) => updateTimeField('minute', e.target.value)} />
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1">Description</label>
-          <textarea className="w-full border p-2 rounded h-32" value={event.description || ''} onChange={(e) => updateField('description', e.target.value)} />
-        </div>
-      </div>
+      <AutoForm schema={TimelineEventSchema} data={eventData} onChange={setEventData} />
     </div>
   );
 }

@@ -1,66 +1,64 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState, useEffect } from 'react';
 import { use } from 'react';
 import { useRouter } from 'next/navigation';
+import { AutoForm } from '../../../components/AutoForm';
+import { LocationSchema } from '../../../lib/schemas/campaign';
+import { cleanData } from '../../../lib/utils';
 
 export default function LocationEdit({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const router = useRouter();
-  const [data, setData] = useState<unknown>(null);
+  const [fullData, setFullData] = useState<any>(null);
+  const [locationData, setLocationData] = useState<any>(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    fetch('/api/campaign').then(res => res.json()).then(setData);
-  }, []);
+    fetch('/api/campaign')
+      .then(res => res.json())
+      .then(data => {
+        setFullData(data);
+        const p = data.locations.find((x: any) => x.id === resolvedParams.id);
+        setLocationData(p);
+      });
+  }, [resolvedParams.id]);
 
   const handleSave = async () => {
+    if (!fullData || !locationData) return;
     setSaving(true);
+    
+    const cleanedLocation = cleanData(locationData, LocationSchema);
+    
+    const newLocations = fullData.locations.map((p: any) => 
+      p.id === resolvedParams.id ? cleanedLocation : p
+    );
+    
+    const payload = { ...fullData, locations: newLocations };
+
     await fetch('/api/campaign', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
     });
+    
     setSaving(false);
     router.push('/locations');
   };
 
-  if (!data) return <div>Loading...</div>;
-
-  const locationIndex = data.locations?.findIndex((l: unknown) => l.id === resolvedParams.id);
-  const location = locationIndex >= 0 ? data.locations[locationIndex] : null;
-
-  if (!location) return <div>Location not found</div>;
-
-  const updateField = (field: string, value: string) => {
-    const newLocations = [...data.locations];
-    newLocations[locationIndex] = { ...newLocations[locationIndex], [field]: value };
-    setData({ ...data, locations: newLocations });
-  };
+  if (!locationData) return <div className="text-[#3e3101] p-8 text-xl">Loading...</div>;
 
   return (
-    <div className="max-w-3xl mx-auto bg-white p-6 rounded shadow">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Edit {location.name}</h1>
-        <button onClick={handleSave} disabled={saving} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-          {saving ? 'Saving...' : 'Save'}
+    <div className="max-w-4xl mx-auto bg-[#ffffff] p-8 rounded-3xl shadow-xl shadow-[#3e3101]/5">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-[#3e3101]">Edit {locationData.name}</h1>
+        <button onClick={handleSave} disabled={saving} className="bg-gradient-to-r from-[#e05a33] to-[#c74421] text-white px-6 py-3 rounded-2xl hover:opacity-90 disabled:opacity-50 transition-opacity font-medium shadow-md shadow-[#e05a33]/20">
+          {saving ? 'Saving...' : 'Save Changes'}
         </button>
       </div>
 
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Name</label>
-          <input type="text" className="w-full border p-2 rounded" value={location.name || ''} onChange={(e) => updateField('name', e.target.value)} />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Region</label>
-          <input type="text" className="w-full border p-2 rounded" value={location.region || ''} onChange={(e) => updateField('region', e.target.value)} />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Description</label>
-          <textarea className="w-full border p-2 rounded h-32" value={location.description || ''} onChange={(e) => updateField('description', e.target.value)} />
-        </div>
-      </div>
+      <AutoForm schema={LocationSchema} data={locationData} onChange={setLocationData} />
     </div>
   );
 }
