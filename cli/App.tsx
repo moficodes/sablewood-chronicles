@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Box, Text, useInput, useApp } from "ink";
+import SelectInput from "ink-select-input";
 import { readCampaign } from "./data";
 import type { Campaign } from "./schema";
 import path from "path";
+
+const navItems = [
+  { label: 'Players', value: 'players' },
+  { label: 'NPCs', value: 'npcs' },
+  { label: 'Locations', value: 'locations' },
+  { label: 'Timeline', value: 'timeline' },
+];
 
 export function App() {
   const { exit } = useApp();
   const [data, setData] = useState<Campaign | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [activePane, setActivePane] = useState<"nav" | "main">("nav");
+  const [selectedView, setSelectedView] = useState("players");
 
   useEffect(() => {
     const filePath = path.join(process.cwd(), "data", "campaign.yml");
@@ -47,10 +56,12 @@ export function App() {
           flexDirection="column"
           paddingX={1}
         >
-          <Text color={activePane === "nav" ? "white" : "gray"}>1. Players</Text>
-          <Text color={activePane === "nav" ? "white" : "gray"}>2. NPCs</Text>
-          <Text color={activePane === "nav" ? "white" : "gray"}>3. Locations</Text>
-          <Text color={activePane === "nav" ? "white" : "gray"}>4. Timeline</Text>
+          <SelectInput 
+            items={navItems} 
+            isFocused={activePane === "nav"}
+            onSelect={(item) => setSelectedView(item.value)}
+            onHighlight={(item) => setSelectedView(item.value)}
+          />
         </Box>
 
         {/* Content Pane */}
@@ -60,7 +71,7 @@ export function App() {
           borderColor={activePane === "main" ? "blue" : "gray"}
           borderStyle={activePane === "main" ? "single" : undefined}
         >
-          <Text>Select an item from the menu.</Text>
+          <Text>Currently viewing: {selectedView}</Text>
         </Box>
       </Box>
 
