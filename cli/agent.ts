@@ -217,4 +217,78 @@ event.command("delete")
     }
   });
 
+const player = program.command("player").description("Manage Players");
+
+player.command("list").action(async () => {
+  try {
+    const data = await readCampaign(CAMPAIGN_FILE);
+    console.log(JSON.stringify(data.players.map((p: any) => ({ id: p.id, name: p.name })), null, 2));
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+});
+
+player.command("add")
+  .requiredOption("--id <string>", "Player ID")
+  .requiredOption("--name <string>", "Player Name")
+  .option("--class <string>", "Player Class")
+  .option("--level <number>", "Player Level", parseInt)
+  .action(async (options) => {
+    try {
+      const data = await readCampaign(CAMPAIGN_FILE);
+      if (data.players.some((p: any) => p.id === options.id)) {
+        console.error(`Player with id ${options.id} already exists.`);
+        process.exit(1);
+      }
+      data.players.push({ ...options });
+      await writeCampaign(data, CAMPAIGN_FILE);
+      console.log(`Added Player: ${options.name}`);
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
+player.command("update")
+  .argument("<id>", "Player ID")
+  .option("--name <string>")
+  .option("--class <string>")
+  .option("--level <number>", "Player Level", parseInt)
+  .action(async (id, options) => {
+    try {
+      const data = await readCampaign(CAMPAIGN_FILE);
+      const index = data.players.findIndex((p: any) => p.id === id);
+      if (index === -1) {
+        console.error(`Player with id ${id} not found.`);
+        process.exit(1);
+      }
+      data.players[index] = { ...data.players[index], ...options };
+      await writeCampaign(data, CAMPAIGN_FILE);
+      console.log(`Updated Player: ${id}`);
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
+player.command("delete")
+  .argument("<id>", "Player ID")
+  .action(async (id) => {
+    try {
+      const data = await readCampaign(CAMPAIGN_FILE);
+      const exists = data.players.some((p: any) => p.id === id);
+      if (!exists) {
+        console.error(`Player with id ${id} not found.`);
+        process.exit(1);
+      }
+      data.players = data.players.filter((p: any) => p.id !== id);
+      await writeCampaign(data, CAMPAIGN_FILE);
+      console.log(`Deleted Player: ${id}`);
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
 program.parse(process.argv);
