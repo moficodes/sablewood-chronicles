@@ -291,4 +291,96 @@ player.command("delete")
     }
   });
 
+const quest = program.command("quest").description("Manage Quests");
+
+quest.command("list").action(async () => {
+  try {
+    const data = await readCampaign(CAMPAIGN_FILE);
+    console.log("Active Quest:", data.home.activeQuest?.title || "None");
+    console.log("Quest List:", JSON.stringify(data.home.questList.map((q: any) => q.title), null, 2));
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+});
+
+quest.command("add")
+  .requiredOption("--title <string>", "Quest Title")
+  .requiredOption("--status <string>", "Quest Status")
+  .requiredOption("--locationId <string>", "Location ID")
+  .option("--description <string>", "Quest Description")
+  .action(async (options) => {
+    try {
+      const data = await readCampaign(CAMPAIGN_FILE);
+      if (data.home.questList.some((q: any) => q.title === options.title)) {
+        console.error(`Quest with title ${options.title} already exists.`);
+        process.exit(1);
+      }
+      data.home.questList.push({ ...options });
+      await writeCampaign(data, CAMPAIGN_FILE);
+      console.log(`Added Quest: ${options.title}`);
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
+quest.command("update")
+  .argument("<title>", "Quest Title")
+  .option("--status <string>")
+  .option("--locationId <string>")
+  .option("--description <string>")
+  .action(async (title, options) => {
+    try {
+      const data = await readCampaign(CAMPAIGN_FILE);
+      const index = data.home.questList.findIndex((q: any) => q.title === title);
+      
+      if (index === -1) {
+        if (data.home.activeQuest && data.home.activeQuest.title === title) {
+          data.home.activeQuest = { ...data.home.activeQuest, ...options };
+        } else {
+          console.error(`Quest with title ${title} not found in questList or activeQuest.`);
+          process.exit(1);
+        }
+      } else {
+        data.home.questList[index] = { ...data.home.questList[index], ...options };
+      }
+      await writeCampaign(data, CAMPAIGN_FILE);
+      console.log(`Updated Quest: ${title}`);
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
+quest.command("delete")
+  .argument("<title>", "Quest Title")
+  .action(async (title) => {
+    try {
+      const data = await readCampaign(CAMPAIGN_FILE);
+      const exists = data.home.questList.some((q: any) => q.title === title) || 
+                     (data.home.activeQuest && data.home.activeQuest.title === title);
+      
+      if (!exists) {
+        console.error(`Quest with title ${title} not found.`);
+        process.exit(1);
+      }
+      
+      data.home.questList = data.home.questList.filter((q: any) => q.title !== title);
+      if (data.home.activeQuest && data.home.activeQuest.title === title) {
+        // We shouldn't delete the node if it's the schema requires an activeQuest object.
+        // For now, let's reset it if it matches. This assumes schema validation won't fail.
+        // A safer way would be to just let the array filter handle "questList" and maybe 
+        // leave activeQuest alone unless explicitly clearing it, but we'll try to clear the title.
+        data.home.activeQuest = { title: "", status: "", locationId: "" };
+      }
+      
+      await writeCampaign(data, CAMPAIGN_FILE);
+      console.log(`Deleted Quest: ${title}`);
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
 program.parse(process.argv);
