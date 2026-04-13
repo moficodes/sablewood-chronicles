@@ -2,11 +2,24 @@
 import React, { useState } from 'react';
 import { Box, Text, useInput } from 'ink';
 import TextInput from 'ink-text-input';
+import set from 'lodash.set';
+import get from 'lodash.get';
 
 export interface WizardStep {
   key: string;
   prompt: string;
+  type?: 'text' | 'object' | 'array';
+  substeps?: WizardStep[];
   validate?: (val: string) => boolean | string;
+}
+
+// Helper type for the execution queue
+export interface QueuedStep {
+  path: string; // The deep path in the object, e.g. "stats.agility" or "connectionQuestions[0].question"
+  step: WizardStep;
+  isArrayPrompt?: boolean; // True if this is the "Add item? y/n" prompt
+  arrayPath?: string; // The path of the array being modified
+  arrayIndex?: number; // The current index being appended
 }
 
 export interface WizardProps<T extends Record<string, unknown>> {
