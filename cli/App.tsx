@@ -10,7 +10,6 @@ import { PlayerDetail, NPCDetail, LocationDetail, EventDetail } from "./componen
 import type { PlayerData, NPCData, LocationData, EventData } from "./components";
 
 const PLAYER_WIZARD_STEPS: WizardStep[] = [
-  { key: "id", prompt: "ID (e.g. p1):" },
   { key: "name", prompt: "Name:" },
   { key: "ancestry", prompt: "Ancestry:" },
   { key: "class", prompt: "Class:" },
@@ -20,7 +19,6 @@ const PLAYER_WIZARD_STEPS: WizardStep[] = [
 ];
 
 const NPC_WIZARD_STEPS: WizardStep[] = [
-  { key: "id", prompt: "ID (e.g. n1):" },
   { key: "name", prompt: "Name:" },
   { key: "role", prompt: "Role:" },
   { key: "location", prompt: "Location:" },
@@ -29,14 +27,12 @@ const NPC_WIZARD_STEPS: WizardStep[] = [
 ];
 
 const LOCATION_WIZARD_STEPS: WizardStep[] = [
-  { key: "id", prompt: "ID (e.g. l1):" },
   { key: "name", prompt: "Name:" },
   { key: "region", prompt: "Region:" },
   { key: "description", prompt: "Description:" },
 ];
 
 const TIMELINE_WIZARD_STEPS: WizardStep[] = [
-  { key: "id", prompt: "ID (e.g. evt-001):" },
   { key: "title", prompt: "Title:" },
   { key: "type", prompt: "Type (e.g. combat, npc_meet):" },
   { key: "description", prompt: "Description:" },

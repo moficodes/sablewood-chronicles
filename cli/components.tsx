@@ -82,21 +82,21 @@ export function PlayerDetail({ data }: { data: PlayerData | null }) {
       
       {data.description && (
         <Box marginTop={1} flexDirection="column">
-          <Text bold>Description:</Text>
+          <Text bold color="cyan">Description:</Text>
           <Text>{data.description}</Text>
         </Box>
       )}
 
       {data.backstory && (
         <Box marginTop={1} flexDirection="column">
-          <Text bold>Backstory:</Text>
+          <Text bold color="magenta">Backstory:</Text>
           <Text>{data.backstory}</Text>
         </Box>
       )}
 
       {data.stats && (
         <Box marginTop={1} flexDirection="column">
-          <Text bold>Stats:</Text>
+          <Text bold color="yellow">Stats:</Text>
           <Text>AGI: {data.stats.agility} | STR: {data.stats.strength} | FIN: {data.stats.finesse}</Text>
           <Text>INS: {data.stats.instinct} | PRE: {data.stats.presence} | KNO: {data.stats.knowledge}</Text>
         </Box>
@@ -104,7 +104,7 @@ export function PlayerDetail({ data }: { data: PlayerData | null }) {
 
       {data.backgroundQuestions && data.backgroundQuestions.length > 0 && (
         <Box marginTop={1} flexDirection="column">
-          <Text bold>Background:</Text>
+          <Text bold color="green">Background Questions:</Text>
           {data.backgroundQuestions.map((q, i) => (
             <Box key={i} flexDirection="column" marginBottom={1}>
               <Text color="gray">Q: {q.question}</Text>
@@ -116,7 +116,7 @@ export function PlayerDetail({ data }: { data: PlayerData | null }) {
 
       {data.connectionQuestions && data.connectionQuestions.length > 0 && (
         <Box marginTop={1} flexDirection="column">
-          <Text bold>Connections:</Text>
+          <Text bold color="green">Connection Questions:</Text>
           {data.connectionQuestions.map((q, i) => (
             <Box key={i} flexDirection="column" marginBottom={1}>
               <Text color="gray">Q: {q.question}</Text>
@@ -140,21 +140,21 @@ export function NPCDetail({ data }: { data: NPCData | null }) {
       
       {data.attitudeTowardParty && (
         <Box marginTop={1} flexDirection="column">
-          <Text bold>Attitude:</Text>
+          <Text bold color="magenta">Attitude:</Text>
           <Text>{data.attitudeTowardParty}</Text>
         </Box>
       )}
       
       {data.description && (
         <Box marginTop={1} flexDirection="column">
-          <Text bold>Description:</Text>
+          <Text bold color="cyan">Description:</Text>
           <Text>{data.description}</Text>
         </Box>
       )}
 
       {data.memorableInteractions && data.memorableInteractions.length > 0 && (
         <Box marginTop={1} flexDirection="column">
-          <Text bold>Interactions:</Text>
+          <Text bold color="green">Interactions:</Text>
           {data.memorableInteractions.map((mi, i) => (
             <Text key={i}>• {mi.description} {mi.highlight ? <Text color="gray">({mi.highlight})</Text> : ""}</Text>
           ))}
@@ -175,14 +175,14 @@ export function LocationDetail({ data }: { data: LocationData | null }) {
       
       {data.description && (
         <Box marginTop={1} flexDirection="column">
-          <Text bold>Description:</Text>
+          <Text bold color="cyan">Description:</Text>
           <Text>{data.description}</Text>
         </Box>
       )}
 
       {data.memorableInteractions && data.memorableInteractions.length > 0 && (
         <Box marginTop={1} flexDirection="column">
-          <Text bold>Interactions:</Text>
+          <Text bold color="magenta">Interactions:</Text>
           {data.memorableInteractions.map((mi, i) => (
             <Text key={i}>• {mi.description} {mi.highlight ? <Text color="gray">({mi.highlight})</Text> : ""}</Text>
           ))}
@@ -203,21 +203,21 @@ export function EventDetail({ data }: { data: EventData | null }) {
       
       {data.time && (
         <Box marginTop={1} flexDirection="column">
-          <Text bold>Time:</Text>
+          <Text bold color="yellow">Time:</Text>
           <Text>{data.time.era}, Year {data.time.year}, {data.time.month} {data.time.day}</Text>
         </Box>
       )}
       
       {data.description && (
         <Box marginTop={1} flexDirection="column">
-          <Text bold>Description:</Text>
+          <Text bold color="cyan">Description:</Text>
           <Text>{data.description}</Text>
         </Box>
       )}
 
       {data.pcNotes && data.pcNotes.length > 0 && (
         <Box marginTop={1} flexDirection="column">
-          <Text bold>PC Notes:</Text>
+          <Text bold color="green">PC Notes:</Text>
           {data.pcNotes.map((note, i) => (
             <Text key={i}>• {note.note} <Text color="gray">({note.pcId})</Text></Text>
           ))}
