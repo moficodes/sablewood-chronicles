@@ -8,10 +8,14 @@ export default function PlayersPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h1 className="text-4xl md:text-5xl font-bold text-on-surface tracking-tight mb-12">
-        The Party
-      </h1>
+      <h1 className="text-4xl font-bold text-primary mb-8">The Party</h1>
       
+      {players.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-surface-container-low rounded-[2rem]">
+          <p className="text-2xl font-bold text-on-surface mb-2">The tavern is empty...</p>
+          <p className="text-outline-variant">No heroes have answered the call yet. Maybe they're all still rolling for stats?</p>
+        </div>
+      ) : (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {players.map((player) => (
           <Link href={`/players/${player.id}`} key={player.id} className="group outline-none">
@@ -49,6 +53,7 @@ export default function PlayersPage() {
           </Link>
         ))}
       </div>
+      )}
     </div>
   );
 }

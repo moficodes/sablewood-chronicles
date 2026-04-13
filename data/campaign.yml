@@ -20,46 +20,46 @@ home:
   #     lastSeenLocation: Unknown
   # lastLocationId: l2
   # nextDestinationId: l1
-locations:
-  - id: l1
-    name: Oakhaven
-    region: The Green Valley
-    description: A peaceful village surrounded by ancient oaks.
-    images:
-      - https://picsum.photos/seed/oakhaven1/800/400
-      - https://picsum.photos/seed/oakhaven2/800/400
-    memorableInteractions:
-      - description: Defended the town from goblins.
-        highlight: Epic final blow by the Paladin
-        pcsInvolved:
-          - Kaelen
-          - Elara
-  - id: l2
-    name: Whispering Caves
-    region: Dragon's Tooth Mountains
-    description: Dark, damp caves where strange voices can be heard.
-    images:
-      - https://picsum.photos/seed/caves1/800/400
-    memorableInteractions:
-      - description: Discovered the hidden ancient mural.
-        highlight: Deciphered the riddle of the elements
-        pcsInvolved:
-          - Thorne
-          - Lyra
-          - Elara
-      - description: Fought a cave troll.
-        highlight: Managed to trap it under falling rocks
-        pcsInvolved:
-          - Kaelen
-  - id: l3
-    name: Sunken Ruins of Azura
-    region: The Whispering Sea
-    description: Ancient ruins submerged beneath crystal clear waters.
-    memorableInteractions:
-      - description: Found the Pearl of Depth.
-        highlight: Held breath for 5 minutes
-        pcsInvolved:
-          - Lyra
+locations: []
+  # - id: l1
+  #   name: Oakhaven
+  #   region: The Green Valley
+  #   description: A peaceful village surrounded by ancient oaks.
+  #   images:
+  #     - https://picsum.photos/seed/oakhaven1/800/400
+  #     - https://picsum.photos/seed/oakhaven2/800/400
+  #   memorableInteractions:
+  #     - description: Defended the town from goblins.
+  #       highlight: Epic final blow by the Paladin
+  #       pcsInvolved:
+  #         - Kaelen
+  #         - Elara
+  # - id: l2
+  #   name: Whispering Caves
+  #   region: Dragon's Tooth Mountains
+  #   description: Dark, damp caves where strange voices can be heard.
+  #   images:
+  #     - https://picsum.photos/seed/caves1/800/400
+  #   memorableInteractions:
+  #     - description: Discovered the hidden ancient mural.
+  #       highlight: Deciphered the riddle of the elements
+  #       pcsInvolved:
+  #         - Thorne
+  #         - Lyra
+  #         - Elara
+  #     - description: Fought a cave troll.
+  #       highlight: Managed to trap it under falling rocks
+  #       pcsInvolved:
+  #         - Kaelen
+  # - id: l3
+  #   name: Sunken Ruins of Azura
+  #   region: The Whispering Sea
+  #   description: Ancient ruins submerged beneath crystal clear waters.
+  #   memorableInteractions:
+  #     - description: Found the Pearl of Depth.
+  #       highlight: Held breath for 5 minutes
+  #       pcsInvolved:
+  #         - Lyra
 timeline:
   title: Archive Chapter IV
   subtitle: The Sablewood Chronicle
@@ -402,32 +402,32 @@ players: []
   #         reading a book.
   #     - question: Who is the only person who can match you in a test of stubbornness?
   #       answer: Kaelen. Once he sets his mind on a shiny object, nothing stops him.
-npcs:
-  - id: n1
-    name: Elara Vance
-    role: Tavern Keeper
-    location: The Prancing Pony
-    description: A kind-hearted human who knows all the rumors in town.
-    image: >-
-      https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400&h=400
-    attitudeTowardParty: Friendly
-    memorableInteractions:
-      - description: >-
-          Gave the party a free round of drinks after they dealt with the rat
-          problem in the cellar.
-        highlight: Free drinks
-        pcInvolved: All
-  - id: n2
-    name: Morgran
-    role: Blacksmith
-    location: Ironforge Anvil
-    description: A gruff but skilled weaponsmith.
-    image: >-
-      https://images.unsplash.com/photo-1589156229687-496a31ad1d1f?auto=format&fit=crop&q=80&w=400&h=400
-    attitudeTowardParty: Neutral
-    memorableInteractions:
-      - description: >-
-          Bargained aggressively with the rogue over the price of a custom
-          dagger.
-        highlight: Haggling
-        pcInvolved: Rogue
+npcs: []
+  # - id: n1
+  #   name: Elara Vance
+  #   role: Tavern Keeper
+  #   location: The Prancing Pony
+  #   description: A kind-hearted human who knows all the rumors in town.
+  #   image: >-
+  #     https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400&h=400
+  #   attitudeTowardParty: Friendly
+  #   memorableInteractions:
+  #     - description: >-
+  #         Gave the party a free round of drinks after they dealt with the rat
+  #         problem in the cellar.
+  #       highlight: Free drinks
+  #       pcInvolved: All
+  # - id: n2
+  #   name: Morgran
+  #   role: Blacksmith
+  #   location: Ironforge Anvil
+  #   description: A gruff but skilled weaponsmith.
+  #   image: >-
+  #     https://images.unsplash.com/photo-1589156229687-496a31ad1d1f?auto=format&fit=crop&q=80&w=400&h=400
+  #   attitudeTowardParty: Neutral
+  #   memorableInteractions:
+  #     - description: >-
+  #         Bargained aggressively with the rogue over the price of a custom
+  #         dagger.
+  #       highlight: Haggling
+  #       pcInvolved: Rogue

@@ -8,6 +8,12 @@ export default function NPCsPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h1 className="text-4xl font-bold text-primary mb-8">Notable Figures</h1>
       
+      {npcs.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-surface-container-low rounded-[2rem]">
+          <p className="text-2xl font-bold text-on-surface mb-2">A town with no faces...</p>
+          <p className="text-outline-variant">Everyone is hiding, or the DM forgot to prepare any NPCs. Time to improvise a barkeep named &quot;Bob&quot;!</p>
+        </div>
+      ) : (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {npcs.map((npc) => (
           <Link href={`/npcs/${npc.id}`} key={npc.id} className="block group">
@@ -46,6 +52,7 @@ export default function NPCsPage() {
           </Link>
         ))}
       </div>
+      )}
     </div>
   );
 }

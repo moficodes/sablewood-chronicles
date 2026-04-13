@@ -9,6 +9,12 @@ export default function LocationsPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h1 className="text-4xl font-bold text-primary mb-8">Gazetteer</h1>
       
+      {locationsData.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-surface-container-low rounded-[2rem]">
+          <p className="text-2xl font-bold text-on-surface mb-2">Off the edge of the map!</p>
+          <p className="text-outline-variant">Our cartographer seems to have misplaced all the maps. Or perhaps the world hasn&#39;t been built yet?</p>
+        </div>
+      ) : (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {locationsData.map((loc) => {
           const featureImage = loc.images && loc.images.length > 0 ? loc.images[0] : null;
@@ -50,6 +56,7 @@ export default function LocationsPage() {
           );
         })}
       </div>
+      )}
     </div>
   );
 }
