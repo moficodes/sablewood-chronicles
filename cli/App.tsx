@@ -39,7 +39,6 @@ export function App() {
     if (key.escape) {
       if (appState === "detail") setAppState("list");
       else if (appState === "list") setAppState("nav");
-      else exit(); // Exit if hitting Esc from the top-level NAV
       return;
     }
     
