@@ -27,8 +27,15 @@ afterAll(async () => {
 
 test("writeCampaign creates backup and writes valid YAML", async () => {
   await writeCampaign(testData, TEST_FILE);
+  
+  const newData = { ...testData, home: { ...testData.home, nextSession: "Session 2" } };
+  await writeCampaign(newData, TEST_FILE);
+  
   const content = await fs.readFile(TEST_FILE, "utf-8");
-  expect(content).toContain("nextSession: Test Session");
+  expect(content).toContain("nextSession: Session 2");
+
+  const bakContent = await fs.readFile(TEST_FILE + ".bak", "utf-8");
+  expect(bakContent).toContain("nextSession: Test Session");
 });
 
 test("readCampaign parses and validates YAML", async () => {

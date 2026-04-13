@@ -11,10 +11,9 @@ export async function readCampaign(filePath: string): Promise<Campaign> {
 export async function writeCampaign(data: Campaign, filePath: string): Promise<void> {
   // Create backup if file exists
   try {
-    await fs.access(filePath);
     await fs.copyFile(filePath, `${filePath}.bak`);
-  } catch {
-    // File doesn't exist, ignore
+  } catch (error: any) {
+    if (error.code !== "ENOENT") throw error;
   }
 
   const yamlStr = yaml.dump(data, { indent: 2 });
