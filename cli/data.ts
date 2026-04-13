@@ -12,8 +12,8 @@ export async function writeCampaign(data: Campaign, filePath: string): Promise<v
   // Create backup if file exists
   try {
     await fs.copyFile(filePath, `${filePath}.bak`);
-  } catch (error: any) {
-    if (error.code !== "ENOENT") throw error;
+  } catch (error: unknown) {
+    if (error instanceof Error && 'code' in error && error.code !== "ENOENT") throw error;
   }
 
   const yamlStr = yaml.dump(data, { indent: 2 });

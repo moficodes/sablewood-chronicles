@@ -186,7 +186,7 @@ export function App() {
     }
   }, [data, selectedCategory, selectedEntityId]);
 
-  const handleSave = async (mutatedData: any) => {
+  const handleSave = async (mutatedData: Record<string, unknown>) => {
     if (!data) return;
     
     // Ensure numeric fields are cast (basic safety for form string outputs)
@@ -194,11 +194,10 @@ export function App() {
     
     const newData = structuredClone(data);
     
-    const arrayName = selectedCategory === "timeline" ? "events" : selectedCategory;
-    const arrayPath = selectedCategory === "timeline" ? newData.timeline.events : (newData as any)[selectedCategory];
+    const arrayPath = selectedCategory === "timeline" ? newData.timeline.events : (newData as Record<string, unknown>)[selectedCategory] as Array<Record<string, unknown>>;
     
     if (appState === "edit") {
-      const index = arrayPath.findIndex((item: any) => item.id === selectedEntityId);
+      const index = arrayPath.findIndex((item) => item.id === selectedEntityId);
       if (index !== -1) {
         arrayPath[index] = { ...arrayPath[index], ...mutatedData };
       }
@@ -213,8 +212,12 @@ export function App() {
       await writeCampaign(newData, filePath);
       setData(newData); // update local state
       setAppState("detail");
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError("Unknown error occurred");
+      }
     }
   };
 

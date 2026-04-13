@@ -126,7 +126,7 @@ export function Wizard<T extends Record<string, unknown>>({
     } else if (currentQStep.step.type === 'array' && currentQStep.step.substeps) {
       // First time hitting an array. Insert the array prompt.
       // Pre-calculate current length if data exists
-      const existingArray = get(updatedDraft, currentQStep.path) as any[];
+      const existingArray = get(updatedDraft, currentQStep.path) as Array<Record<string, unknown>> | undefined;
       const startIndex = existingArray && Array.isArray(existingArray) ? existingArray.length : 0;
       
       const arrayPrompt: QueuedStep = {
