@@ -5,6 +5,9 @@ import ImageCarousel from "./ImageCarousel";
 
 export async function generateStaticParams() {
   const { locations: locationsData } = getCampaignData();
+  if (!locationsData || locationsData.length === 0) {
+    return [{ id: "_empty_" }];
+  }
   return locationsData.map((loc) => ({
     id: loc.id,
   }));

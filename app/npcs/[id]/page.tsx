@@ -5,6 +5,9 @@ import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
   const { npcs } = getCampaignData();
+  if (!npcs || npcs.length === 0) {
+    return [{ id: "_empty_" }];
+  }
   return npcs.map((npc) => ({
     id: npc.id,
   }));

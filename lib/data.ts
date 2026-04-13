@@ -14,6 +14,14 @@ export function getCampaignData(): CampaignData {
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const data = yaml.load(fileContents) as CampaignData;
   
+  // Normalize arrays in case they are empty/null/objects in YAML
+  if (!Array.isArray(data.players)) {
+    data.players = [];
+  }
+  if (!Array.isArray(data.locations)) {
+    data.locations = [];
+  }
+  
   cachedData = data;
   return data;
 }

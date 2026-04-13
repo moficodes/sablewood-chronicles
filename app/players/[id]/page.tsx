@@ -9,6 +9,9 @@ interface PageProps {
 
 export async function generateStaticParams() {
   const { players: playersData } = getCampaignData();
+  if (!playersData || playersData.length === 0) {
+    return [{ id: "_empty_" }];
+  }
   return playersData.map((p: Player) => ({
     id: p.id,
   }));
