@@ -35,19 +35,24 @@ export function Wizard<T extends Record<string, unknown>>({
   onSubmit, 
   onCancel 
 }: WizardProps<T>) {
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const initData = initialData || {} as Partial<T>;
   const [draftData, setDraftData] = useState<Partial<T>>({ ...initData });
-  
-  const firstKey = steps[0]?.key;
-  const initial = firstKey && initData ? (initData as Record<string, unknown>)[firstKey] : undefined;
-  
-  const [currentInput, setCurrentInput] = useState(
-    initial !== undefined ? String(initial) : ""
-  );
   const [error, setError] = useState<string | null>(null);
 
-  const currentStep = steps[currentStepIndex];
+  // Initialize the queue with the root steps
+  const [queue, setQueue] = useState<QueuedStep[]>(() => {
+    return steps.map(s => ({ path: s.key, step: s }));
+  });
+
+  const currentQStep = queue[0];
+  const isArrayPrompt = currentQStep?.isArrayPrompt;
+
+  const [currentInput, setCurrentInput] = useState(() => {
+    if (!currentQStep) return "";
+    if (currentQStep.isArrayPrompt) return ""; // y/n prompt starts empty
+    const val = get(initData, currentQStep.path);
+    return val !== undefined ? String(val) : "";
+  });
 
   useInput((input, key) => {
     if (key.escape) {
@@ -57,8 +62,39 @@ export function Wizard<T extends Record<string, unknown>>({
   });
 
   const handleSubmit = (value: string) => {
-    if (currentStep?.validate) {
-      const validationResult = currentStep.validate(value);
+    if (!currentQStep) return;
+
+    if (isArrayPrompt) {
+      const isYes = value.toLowerCase() === 'y' || value.toLowerCase() === 'yes';
+      if (isYes) {
+        // They want to add an item. 
+        // 1. Queue the substeps with the current index
+        // 2. Re-queue the array prompt itself afterward for the NEXT index.
+        const substeps = currentQStep.step.substeps || [];
+        const nextIndex = currentQStep.arrayIndex! + 1;
+        
+        const unrolledSteps: QueuedStep[] = substeps.map(sub => ({
+          path: `${currentQStep.arrayPath}[${currentQStep.arrayIndex}].${sub.key}`,
+          step: sub
+        }));
+
+        const rePrompt: QueuedStep = {
+          ...currentQStep,
+          arrayIndex: nextIndex
+        };
+
+        const newQueue = [...unrolledSteps, rePrompt, ...queue.slice(1)];
+        advanceQueue(newQueue, draftData);
+      } else {
+        // They are done with the array. Just drop the prompt and move on.
+        advanceQueue(queue.slice(1), draftData);
+      }
+      return;
+    }
+
+    // Normal text validation
+    if (currentQStep.step.validate) {
+      const validationResult = currentQStep.step.validate(value);
       if (validationResult === false) {
         setError("Invalid input.");
         return;
@@ -71,26 +107,67 @@ export function Wizard<T extends Record<string, unknown>>({
     
     setError(null);
 
-    const updatedDraft = { ...draftData, [currentStep!.key]: value } as Partial<T>;
+    // Deep merge using lodash.set
+    const updatedDraft = { ...draftData } as Partial<T>;
+    // If it's empty string, we can either set it or ignore it. Let's set it.
+    set(updatedDraft as object, currentQStep.path, value);
     setDraftData(updatedDraft);
 
-    if (currentStepIndex < steps.length - 1) {
-      const nextStep = steps[currentStepIndex + 1];
-      const nextVal = (updatedDraft as Record<string, unknown>)[nextStep!.key];
-      setCurrentInput(nextVal !== undefined ? String(nextVal) : "");
-      setCurrentStepIndex(currentStepIndex + 1);
-    } else {
+    // Expand objects dynamically or just pop the queue
+    let newQueue = queue.slice(1);
+    if (currentQStep.step.type === 'object' && currentQStep.step.substeps) {
+      const subQueue: QueuedStep[] = currentQStep.step.substeps.map(sub => ({
+        path: `${currentQStep.path}.${sub.key}`,
+        step: sub
+      }));
+      newQueue = [...subQueue, ...newQueue];
+    } else if (currentQStep.step.type === 'array' && currentQStep.step.substeps) {
+      // First time hitting an array. Insert the array prompt.
+      // Pre-calculate current length if data exists
+      const existingArray = get(updatedDraft, currentQStep.path) as any[];
+      const startIndex = existingArray && Array.isArray(existingArray) ? existingArray.length : 0;
+      
+      const arrayPrompt: QueuedStep = {
+        path: currentQStep.path, // Doesn't matter
+        step: currentQStep.step,
+        isArrayPrompt: true,
+        arrayPath: currentQStep.path,
+        arrayIndex: startIndex
+      };
+      
+      // We don't save a value for the array root itself right now, we just swap to the prompt
+      newQueue = [arrayPrompt, ...newQueue];
+    }
+
+    advanceQueue(newQueue, updatedDraft);
+  };
+
+  const advanceQueue = (nextQueue: QueuedStep[], updatedDraft: Partial<T>) => {
+    if (nextQueue.length === 0) {
       onSubmit(updatedDraft as T);
+    } else {
+      setQueue(nextQueue);
+      const nextItem = nextQueue[0];
+      if (nextItem.isArrayPrompt) {
+        setCurrentInput("");
+      } else {
+        const nextVal = get(updatedDraft, nextItem.path);
+        setCurrentInput(nextVal !== undefined ? String(nextVal) : "");
+      }
     }
   };
 
-  if (!currentStep) return <Text>Loading...</Text>;
+  if (!currentQStep) return <Text>Loading...</Text>;
+
+  const displayPrompt = isArrayPrompt 
+    ? `Add an item to ${currentQStep.step.prompt}? (y/n):`
+    : currentQStep.step.prompt;
 
   return (
     <Box flexDirection="column" padding={1}>
-      <Text bold color="cyan">Wizard (Step {currentStepIndex + 1} of {steps.length})</Text>
+      <Text bold color="cyan">Wizard Editor</Text>
       <Box marginTop={1}>
-        <Text color="green">{currentStep.prompt} </Text>
+        <Text color="green">{displayPrompt} </Text>
         <TextInput 
           value={currentInput} 
           onChange={(val) => {
