@@ -246,6 +246,10 @@ player.command("add")
   .requiredOption("--name <string>", "Player Name")
   .option("--class <string>", "Player Class")
   .option("--level <number>", "Player Level", parseInt)
+  .option("--ancestry <string>", "Player Ancestry")
+  .option("--community <string>", "Player Community")
+  .option("--subclass <string>", "Player Subclass")
+  .option("--tier <number>", "Player Tier", parseInt)
   .action(async (options) => {
     try {
       const data = await readCampaign(CAMPAIGN_FILE);
@@ -253,7 +257,32 @@ player.command("add")
         console.error(`Player with id ${options.id} already exists.`);
         process.exit(1);
       }
-      data.players.push({ ...options });
+      
+      const newPlayer = {
+        id: options.id,
+        name: options.name,
+        class: options.class || "",
+        level: options.level || 1,
+        ancestry: options.ancestry || "",
+        community: options.community || "",
+        subclass: options.subclass || "",
+        tier: options.tier || 1,
+        image: "/images/placeholders/player.webp",
+        description: "",
+        backstory: "",
+        stats: {
+          agility: 0,
+          strength: 0,
+          finesse: 0,
+          instinct: 0,
+          presence: 0,
+          knowledge: 0
+        },
+        backgroundQuestions: [],
+        connectionQuestions: []
+      };
+
+      data.players.push(newPlayer);
       await writeCampaign(data, CAMPAIGN_FILE);
       console.log(`Added Player: ${options.name}`);
     } catch (err) {
