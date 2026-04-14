@@ -36,11 +36,12 @@ function groupEventsByArc(events: TimelineEvent[]) {
 
 export function TimelineClient({ timelineData }: { timelineData: TimelineData }) {
   // Extract unique values for filters
-  const EVENT_TYPES = useMemo(() => Array.from(new Set(timelineData.events.map(e => e.type))) as EventType[], [timelineData.events]);
-  const SAGA_ARCS = useMemo(() => Array.from(new Set(timelineData.events.map(e => e.sagaArc).filter(Boolean))) as SagaArc[], [timelineData.events]);
-  const PC_IDS = useMemo(() => Array.from(new Set(timelineData.events.flatMap(e => e.pcNotes?.map(n => n.pcId) || []))), [timelineData.events]);
+  const events = timelineData?.events || [];
+  const EVENT_TYPES = useMemo(() => Array.from(new Set(events.map(e => e.type))) as EventType[], [events]);
+  const SAGA_ARCS = useMemo(() => Array.from(new Set(events.map(e => e.sagaArc).filter(Boolean))) as SagaArc[], [events]);
+  const PC_IDS = useMemo(() => Array.from(new Set(events.flatMap(e => e.pcNotes?.map(n => n.pcId) || []))), [events]);
 
-  const allEvents = timelineData.events;
+  const allEvents = events;
   const [page, setPage] = useState(1);
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [collapsedArcs, setCollapsedArcs] = useState<Set<string>>(new Set());
@@ -129,15 +130,22 @@ export function TimelineClient({ timelineData }: { timelineData: TimelineData })
   return (
     <div className="container mx-auto px-4 py-12 max-w-5xl">
       <div className="text-center mb-16">
-        <h2 className="text-sm tracking-widest text-on-surface-variant uppercase mb-4">{timelineData.title}</h2>
-        <h1 className="text-5xl md:text-7xl font-serif text-on-surface mb-6 italic">{timelineData.subtitle}</h1>
+        <h2 className="text-sm tracking-widest text-on-surface-variant uppercase mb-4">{timelineData?.title || 'Timeline'}</h2>
+        <h1 className="text-5xl md:text-7xl font-serif text-on-surface mb-6 italic">{timelineData?.subtitle || 'The Chronicle'}</h1>
         <p className="text-on-surface-variant text-lg max-w-2xl mx-auto leading-relaxed">
-          {timelineData.description}
+          {timelineData?.description || 'A record of events.'}
         </p>
       </div>
       
-      {/* Timeline Layout */}
-      <div className="relative">
+      {allEvents.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-surface-container-low rounded-[2rem]">
+          <p className="text-2xl font-bold text-on-surface mb-2">History is unwritten...</p>
+          <p className="text-outline-variant">The sands of time are perfectly still. Or the DM hasn&apos;t figured out what happened yet. Time to grab a quill and make some history!</p>
+        </div>
+      ) : (
+        <>
+          {/* Timeline Layout */}
+          <div className="relative">
         {/* The central spine (left on mobile, center on md+) */}
         <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-surface-container-highest transform -translate-x-1/2 z-0 rounded-full"></div>
 
@@ -280,6 +288,8 @@ export function TimelineClient({ timelineData }: { timelineData: TimelineData })
           </div>
         )}
       </div>
+        </>
+      )}
     </div>
   );
 }

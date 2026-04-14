@@ -74,10 +74,10 @@ export interface PCNote {
 }
 
 export interface TimelineData {
-  title: string;
-  subtitle: string;
-  description: string;
-  events: TimelineEvent[];
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  events?: TimelineEvent[];
 }
 
 export interface TimelineEvent {
