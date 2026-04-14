@@ -1,9 +1,35 @@
 home:
   header:
     title: Sablewood Chronicles
-    description: Welcome to the living record of our adventures, heroes, and the world we shape together.
+    description: >-
+      Welcome to the living record of our adventures, heroes, and the world we
+      shape together.
     navBrand: Sablewood
 locations: []
-timeline: {}
-players: []
+timeline:
+  title: Campaign Timeline
+  subtitle: The story so far
+  description: Events of our heroes
+  events: []
+players:
+  - id: orna-kaan
+    name: Orna Kaan
+    class: Sorcerer
+    level: 1
+    ancestry: Galapa
+    community: Loreborn
+    subclass: Primal Origin
+    tier: 1
+    image: /images/placeholders/player.webp
+    description: ''
+    backstory: ''
+    stats:
+      agility: 0
+      strength: 0
+      finesse: 0
+      instinct: 0
+      presence: 0
+      knowledge: 0
+    backgroundQuestions: []
+    connectionQuestions: []
 npcs: []
