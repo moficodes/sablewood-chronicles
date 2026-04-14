@@ -20,7 +20,7 @@ players:
     community: Loreborn
     subclass: Primal Origin
     tier: 1
-    image: /images/placeholders/player.webp
+    image: ""
     description: ''
     backstory: ''
     stats:

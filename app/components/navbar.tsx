@@ -30,7 +30,7 @@ export function Navbar({ brand = "Sablewood" }: { brand?: string }) {
           
           {/* Desktop Menu */}
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
+            <div className="ml-10 flex items-center space-x-4">
               {NAV_LINKS.map((item) => (
                 <Link
                   key={item.name}
