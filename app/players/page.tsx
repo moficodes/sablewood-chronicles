@@ -13,7 +13,7 @@ export default function PlayersPage() {
       {players.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 px-4 text-center bg-surface-container-low rounded-[2rem]">
           <p className="text-2xl font-bold text-on-surface mb-2">The tavern is empty...</p>
-          <p className="text-outline-variant">No heroes have answered the call yet. Maybe they're all still rolling for stats?</p>
+          <p className="text-outline-variant">No heroes have answered the call yet. Maybe they&apos;re all still rolling for stats?</p>
         </div>
       ) : (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
