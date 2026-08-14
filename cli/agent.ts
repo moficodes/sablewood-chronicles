@@ -174,6 +174,13 @@ event.command("add")
   .requiredOption("--title <string>", "Event Title")
   .option("--type <string>", "Event Type")
   .option("--description <string>", "Event Description")
+  .option("--locationId <string>", "Location ID")
+  .option("--month <string>", "Month")
+  .option("--day <number>", "Day", parseInt)
+  .option("--year <number>", "Year", parseInt)
+  .option("--era <string>", "Era")
+  .option("--hour <number>", "Hour", parseInt)
+  .option("--minute <number>", "Minute", parseInt)
   .action(async (options) => {
     try {
       const data = await readCampaign(CAMPAIGN_FILE);
@@ -181,7 +188,22 @@ event.command("add")
         console.error(`Event with id ${options.id} already exists.`);
         process.exit(1);
       }
-      data.timeline.events.push({ ...options });
+      
+      const { month, day, year, era, hour, minute, ...eventData } = options;
+      
+      const defaultTime = {
+        era: era || "Enlightenment",
+        year: year ?? 3982,
+        month: month || "Tolmir",
+        day: day ?? 4,
+        ...(hour !== undefined ? { hour } : {}),
+        ...(minute !== undefined ? { minute } : {}),
+      };
+
+      data.timeline.events.push({
+        ...eventData,
+        time: defaultTime,
+      });
       await writeCampaign(data, CAMPAIGN_FILE);
       console.log(`Added Event: ${options.title}`);
     } catch (err) {
@@ -195,6 +217,13 @@ event.command("update")
   .option("--title <string>")
   .option("--type <string>")
   .option("--description <string>")
+  .option("--locationId <string>")
+  .option("--month <string>")
+  .option("--day <number>", "Day", parseInt)
+  .option("--year <number>", "Year", parseInt)
+  .option("--era <string>")
+  .option("--hour <number>", "Hour", parseInt)
+  .option("--minute <number>", "Minute", parseInt)
   .action(async (id, options) => {
     try {
       const data = await readCampaign(CAMPAIGN_FILE);
@@ -203,7 +232,24 @@ event.command("update")
         console.error(`Event with id ${id} not found.`);
         process.exit(1);
       }
-      data.timeline.events[index] = { ...data.timeline.events[index], ...options };
+
+      const { month, day, year, era, hour, minute, ...eventData } = options;
+      
+      const existingTime = data.timeline.events[index].time || {};
+      const updatedTime = {
+        era: era || existingTime.era || "Enlightenment",
+        year: year ?? existingTime.year ?? 3982,
+        month: month || existingTime.month || "Tolmir",
+        day: day ?? existingTime.day ?? 4,
+        hour: hour ?? existingTime.hour,
+        minute: minute ?? existingTime.minute,
+      };
+
+      data.timeline.events[index] = {
+        ...data.timeline.events[index],
+        ...eventData,
+        time: updatedTime,
+      };
       await writeCampaign(data, CAMPAIGN_FILE);
       console.log(`Updated Event: ${id}`);
     } catch (err) {

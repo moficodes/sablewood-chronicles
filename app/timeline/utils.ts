@@ -1,7 +1,8 @@
 import { TimelineEvent, GameTime } from '@/types';
 
-export function formatGameTime(time: GameTime): string {
-  let result = `${time.month} ${time.day}, ${time.year}`;
+export function formatGameTime(time?: GameTime): string {
+  if (!time) return 'Unknown Time';
+  let result = `${time.month ?? ''} ${time.day ?? ''}, ${time.year ?? ''}`.trim();
   if (time.era && time.era !== 'The Second Age') {
     result += ` - ${time.era}`;
   }

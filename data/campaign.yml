@@ -11,9 +11,15 @@ home:
       status: active
       locationId: hush
       description: >-
-        King Emeris has tasked Orna Kaan and her newly recruited companions,  to
-        deliver a mysterious box from the capital of Solitaire to the village of
-        Hush.
+        King Emeris tasked Orna Kaan and her companions to deliver a mysterious
+        box from Solitaire to Hush. The party has safely arrived in Hush amidst
+        a festival and is staying at an inn overnight.
+    - title: Rescue the Missing Children of Hush
+      status: completed
+      locationId: hush
+      description: >-
+        Assisted Tyrion Lannister in finding and rescuing children from Hush who
+        wandered too far from the village and were hunted by monstrosities.
 locations:
   - id: solitaire
     name: Solitaire
@@ -27,8 +33,9 @@ locations:
     name: Hush
     region: Unknown
     description: >-
-      A village that the party is currently traveling towards to deliver a box
-      for King Emeris.
+      A village currently celebrating a lively late-night festival. The party
+      arrived here after rescuing missing children on the road with Tyrion
+      Lannister and is staying at a local inn.
   - id: sablewood-forest
     name: The Sablewood Forest
     description: >-
@@ -69,6 +76,39 @@ timeline:
         group of strix wolf. Once they peacefully deal with the Strix Wolf, they
         were ambushed by a group of thistle folk. The party barely manages to
         fight them off.
+    - id: evt-rescue-hush-children
+      title: Rescue of the Hush Children
+      type: combat
+      description: >-
+        During late-night travel towards Hush while Orna rested in the carriage,
+        the party reconnected with their old friend Tyrion Lannister, a giant
+        bard searching for missing village children who strayed too far from
+        safety. Working with Tyrion, the party tracked the children down, fought
+        off attacking monstrosities, and rescued them.
+      locationId: hush
+      time:
+        era: Enlightenment
+        year: 3982
+        month: Tolmir
+        day: 4
+        hour: 22
+        minute: 30
+    - id: evt-arrival-in-hush
+      title: Arrival at Hush
+      type: location_change
+      description: >-
+        The party returned to the village of Hush in the dead of night. They
+        found Hush actively celebrating a festival with many villagers still
+        awake. The group quickly secured lodging at a local inn to rest for the
+        night.
+      locationId: hush
+      time:
+        era: Enlightenment
+        year: 3982
+        month: Tolmir
+        day: 4
+        hour: 23
+        minute: 45
 players:
   - id: orna-kaan
     name: Orna Kaan
